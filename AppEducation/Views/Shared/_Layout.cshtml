@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@ViewData["Title"] - MTA EDUCATION</title>
+    
+    @RenderSection("Head", required: false)
+</head>
+
+<body>
+
+    @RenderSection("Header", required: false)
+
+    @RenderSection("Login", required: false)
+
+    @RenderBody()
+
+    @RenderSection("Footer", required: false)
+   
+    @RenderSection("Script", required: false)
+</body>
+</html>

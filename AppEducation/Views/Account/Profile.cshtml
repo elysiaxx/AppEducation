@@ -1,0 +1,142 @@
+@model UserProfile
+
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "_LayoutAccount";
+}
+@section Head {
+    <link rel="stylesheet" href="~/pages/profile/css/all.min.css">
+    <link rel="stylesheet" href="~/pages/profile/css/bootstrap.css">
+    <link rel="stylesheet" href="~/pages/profile/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/pages/profile/css/profile.css" />
+}
+@{ 
+    
+}
+<section>
+    <div class="main">
+        <div class="user-layout">
+            <div class="header-page">
+                <div class="container">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#" role="button"><span>Trang chủ</span></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Thông tin cá nhân</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="container">
+                <div>
+                    <div class="left-bar-user">
+                        <ul style="list-style: none;" >
+                            <li class="active"><a href="/user/info"><img  src="~/pages/profile/images/user_info_icon.png"
+                                        alt="~/pages/profile/images/user_info_icon.png"><span> Thông tin cá nhân</span></a></li>
+                            <li class=""><a href="/user/history"><img style="width: 15px" src="~/pages/profile/images/history_icon.png"
+                                        alt="~/pages/profile/images/history_icon.png"><span> Lịch sử học tập</span></a></li>
+                            <li class=""><a href="/user/renew-package"><img style="width: 15px" src="~/pages/profile/images/renew_package_icon.png"
+                                        alt="/images/renew_package_icon.png"><span> Điểm số</span></a></li>
+                            <li class=""><a href="/user/notification"><img style="width: 15px" src="~/pages/profile/images/icon_notify.png"
+                                        alt="~/pages/profile/images/icon_notify.png"><span> Thông báo</span></a></li>
+                        </ul>
+                    </div>
+                    <div class="user-layout-children">
+                        <div class="user-info">
+                            <p class="title">Thông tin cá nhân</p>
+                            <form asp-controller="Account" asp-action="ChangeProfile" method="post">
+                                <div class="box user-info-box col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3"><span class="text-normal"><strong>Thông tin cơ
+                                                        bản</strong></span></div>
+                                            <div class="col-md-9 text-right update-button">
+                                            
+                                                <button id="changes" class="col-md-3" onclick="changeFunction()" type="button">Chỉnh sửa</button>
+                                                <button id="save" class="col-md-3" type="submit" >Lưu</button>
+                                                <button id="cancel" class="col-md-3" type="button">Hủy</button>
+                                            </div>
+                                        </div>                                   
+                                        <div>
+                                            <div class="col-md-12 border-top">
+                                                <div class="col-md-3"><span>Họ và tên</span></div>
+                                                <div class="col-md-9">
+                                                    @*<span class="oldInput">@Model.FullName</span>*@
+                                                    <input class="form-control newInput" asp-for="FullName" value="@Model.FullName" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 border-top">
+                                                <div class="col-md-3"><span>Email</span></div>
+                                                <div class="col-md-9">
+                                                    @*<span class="oldInput">@Model.Email</span>*@
+                                                    <input class="form-control newInput" asp-for="Email" value="@Model.Email" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 border-top">
+                                                <div class="col-md-3"><span>Số điện thoại</span></div>
+                                                @*<div class="col-md-9"><span class="oldInput">@Model.PhoneNumber</span></div>*@
+                                                <input class="form-control newInput" asp-for="PhoneNumber" value="@Model.PhoneNumber" disabled>
+                                            </div>
+                                            <div class="col-md-12 border-top">
+                                                <div class="col-md-3">
+                                                    <span>Ngày sinh</span>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input class="newInput form-control" asp-for="Birthday" value="@Model.Birthday" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 border-top">
+                                                <div class="col-md-3"><span>Giới tính</span></div>
+                                                <div class="col-md-9">
+                                                    <span>Nam</span>
+                                                    <input class="newInput" asp-for="Sex" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 border-top">
+                                                <div class="col-md-3"><span>Trình độ</span></div>
+                                                <div class="col-md-9">
+                                                    @*<span class="text-capitalize oldInput">@Model.Job</span>*@
+                                                    <input class="newInput form-control" asp-for="Job" value="@Model.Job" disabled />
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 border-top">
+                                                <div class="col-md-3"><span>Mật Khẩu</span></div>
+                                                <div class="col-md-9">
+                                                    @*<span class="text-capitalize oldInput">@Model.Job</span>*@
+                                                    <input class="newInput" asp-for="Password" type="password" value="@Model.Password" disabled />
+                                                    <a id="seePW" class="button">Hiển thị</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Script {
+    <script>
+    $(document).ready(function() {  
+        var readURL = function(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.avatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $(".file-upload").on('change', function(){
+            readURL(this);
+        });
+        });
+
+    </script>
+}

@@ -1,0 +1,128 @@
+
+.main {
+    padding-top: 0px;
+    min-height: 60vh;
+}
+
+.user-layout {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+.user-layout .container > div {
+    display: flex;
+}
+div {
+    display: block;
+}
+
+.header-page {
+    background: #F4F4F4;
+    border-bottom: 1px solid #E5E6E7;
+}
+
+.breadcrumb {
+    color: #666;
+    padding: 10px 0px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+.breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    list-style: none;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+.breadcrumb > .active {
+    color: #333;
+}
+.breadcrumb >.active {
+    color: #777;
+}
+.breadcrumb>li {
+    display: inline-block;
+}
+
+ol, ul {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+.left-bar-user {
+    border-right: 2px solid #E5E5E5;
+    max-width: 250px;
+    padding-bottom: 165px;
+}
+.left-bar-user li.active, .left-bar-user li:hover {
+    background: #F1F1F1;
+    border-radius: 3px;
+    margin-right: 30px;
+
+}
+.left-bar-user li:not(:last-child) {
+    margin-bottom: 10px;
+
+}
+.left-bar-user li a {
+    display: block;
+}
+.left-bar-user li {
+    height: 30px;
+    text-align: left;
+    padding-left: 40px;
+    width: 207px;
+    cursor: pointer;
+}
+
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+a {
+    cursor: pointer;
+    color: #008FD7;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    background-color: transparent;
+}
+
+.user-layout-children {
+    padding-top: 5px;
+    margin-left: 5px;
+    display: block;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+}
+
+
+.user-layout-children .title {
+    padding-top: 5px;
+    padding-left: 3px;
+    margin: 20px 0 0;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    color: #333333;
+}
+.user-layout-children .box {
+    background: #FFFFFF;
+    border: 1px solid #E5E5E5;
+    box-sizing: border-box;
+    border-radius: 3px;
+    padding: 17px 30px 0 30px;
+    margin-top: 21px;
+}

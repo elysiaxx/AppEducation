@@ -1,0 +1,115 @@
+﻿@{
+  
+    ViewBag.Title = "Create Page";
+    Layout = "_LayoutAccount";
+ 
+}
+@model JoinClassInfor
+@section Head {
+    <link rel="stylesheet" href="~/pages/profile/css/all.min.css">
+    <link rel="stylesheet" href="~/pages/profile/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="~/pages/create/css/create.css" />
+    <link type="text/css" rel="stylesheet" href="~/pages/create/css/mdb.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="Menu-add-class">
+                <div class="link-follow">
+                    <ul>
+                        <li><a href="#" data-toggle="modal" data-target="#modalSubscriptionForm"><i class="fa fa-plus-circle"></i></a></li>
+                    </ul>
+                </div>
+                <h1 class="text-center">Danh Sách Lớp</h1>
+            </div>
+            <hr>
+                
+                    @foreach (Classes classes in Model.AvailableClasses.ToList())
+                    {
+                        if (classes.isActive)
+                        {
+                        <div class="col-md-3 product-grid">
+                            <div class="swiper-slide">
+                                <div class="slider-box">
+                                    <p class="time">Lớp</p>
+                                    <p class="detail">@classes.ClassName</p>
+                                    <div class="img-box">
+                                        <img src="~/pages/create/img/icon.jpeg">
+                                    </div>
+                                    <span class="detail">Chủ đề : @classes.Topic</span>
+                                    <span class="giaovien">Giao Vien : @classes.User.UserName</span>
+                                    <span class="online">Online: @classes.OnlineStudent</span>
+                                    <div class="cart">
+                                        <a asp-action="Join" asp-controller="JoinClass" data-toggle="modal" data-target="#modalForm">vào lớp</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            }
+                        }
+                    
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+            <form class="modal-content" method="POST" asp-action="Create" asp-controller="JoinClass">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Đăng Kí Lớp</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-5">
+                        <input type="text" id="form3" class="form-control validate" asp-for="NewClass.ClassID">
+                        <label data-error="wrong" data-success="right" for="form3">Mã Phòng</label>
+                    </div>
+
+                    <div class="md-form mb-4">
+                        <input type="text" id="form2" class="form-control validate" asp-for="NewClass.ClassName">
+                        <label data-error="wrong" data-success="right" for="form2" >Tên Lớp</label>
+                    </div>
+
+                    <div class="md-form mb-4">
+                        <input type="text" id="form1" class="form-control validate" asp-for="NewClass.Topic">
+                        <label data-error="wrong" data-success="right" for="form1" >Chủ Đề</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn btn-indigo">Tạo Lớp<i class="fas fa-paper-plane-o ml-1"></i></button>
+                </div>
+            </form>
+         
+    </div>
+</div>
+<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form class="modal-content" asp-action="Join" asp-controller="JoinClass" method="POST">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Nhập Mã Phòng</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <div class="md-form mb-5">
+                    <input   type="text" id="form3" class="form-control validate" asp-for="NewClass.ClassID">
+                    <label data-error="wrong" data-success="right" for="form3">Mã Phòng</label>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-indigo">Vào Lớp<i class="fas fa-paper-plane-o ml-1"></i></button>
+            </div>
+        </form>
+
+    </div>
+</div>
+<script src="~/pages/create/bootstrap.min.js"></script>
+<script type="text/javascript" src="~/js/Jquery3.4.1.min.js"></script>
+<script type="text/javascript" src="~/pages/create/mdb.js"></script>
+<script src="~/ts/app.js"></script>

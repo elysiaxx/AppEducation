@@ -1,0 +1,50 @@
+﻿@model TotalInformation
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var numberUserOnline = 0;
+  var numberClassOnline = 0;
+  foreach(Room room in Model.Rooms){
+    numberUserOnline += room.UserCalls.Count() ;
+  }
+  numberClassOnline = Model.Rooms.Count();
+}
+<div class="container-fluid">
+    <h1 class="mt-4">Thông Tin</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Thông Tin</li>
+    </ol>
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">Người Dùng</div>
+                <div class="card-body">@Model.Users.Count()</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" asp-action="UserManager" asp-controller="Admin">Chi Tiết</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body">Lịch Sử</div>
+                <div class="card-body">Lớp</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" asp-action="ClassManager" asp-controller="Admin">Chi Tiết</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">Lớp </div>
+                <div class="card-body">Online</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" asp-action="ShowClassOnline" asp-controller="Admin">Chi Tiết</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

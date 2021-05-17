@@ -1,0 +1,13 @@
+﻿body {
+    margin-bottom:100px;
+}
+.newInput {
+    
+}
+
+#save {
+    display :none;
+}
+#cancel {
+    display:none;
+}

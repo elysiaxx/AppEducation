@@ -1,0 +1,29 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebAppEducation</title>
+    <link rel="stylesheet" href="~/pages/Presents/css/bootstrap.css">
+    <link rel="stylesheet" href="~/pages/Presents/css/css_2020.css">
+    <link rel="stylesheet" href="~/pages/Presents/css/videocall.css">
+    <link rel="stylesheet" href="~/pages/Presents/css/css.css">
+    <link rel="stylesheet" href="~/pages/Presents/css/style.css">
+    @* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> *@
+    @RenderSection("Head", required: false)
+</head>
+    @RenderBody()
+<body>
+    <script src="~/pages/Presents/js/bootstrap.js"></script>
+    <script src="~/pages/Presents/js/analytics.js"></script>
+    <script src="~/pages/Presents/js/app.bundle.min.js"></script>
+    <script src="~/pages/Presents/js/bootstrap.js"></script>
+    <script src="~/pages/Presents/js/do_external_connect.min.js"></script>
+    <script src="~/pages/Presents/js/js.js"></script>
+    <script src="~/pages/Presents/js/lib-jitsi-meet.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @RenderSection("Script", required: false)
+</body>
+</html>

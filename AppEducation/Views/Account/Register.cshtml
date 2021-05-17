@@ -1,0 +1,88 @@
+﻿@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_LayoutRegister.cshtml";
+}
+<div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w680">
+        <div class="card card-4">
+            <div class="card-body">
+                <h2 class="title">Registration Form</h2>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form asp-area="" asp-controller="Account" asp-action="Register" method="POST">
+                    <div class="roww roww-space">
+                        <div class=".col-2-2">
+                            <div class="input-group">
+                                <label class="label">User Name</label>
+                                <input asp-for="UserName" class="input--style-4" type="text">
+                            </div>
+                        </div>
+                        <div class=".col-2-2">
+                            <div class="input-group">
+                                <label class="label">Password</label>
+                                <input asp-for="Password" class="input--style-4" type="password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="roww roww-space">
+                        <div class=".col-2-2">
+                            <div class="input-group">
+                                <label class="label">Birthday</label>
+                                <div class="input-group-icon">
+                                    <input asp-for="Birthday" class="input--style-4 js-datepicker" type="text">
+                                    <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=".col-2-2">
+                            <div class="input-group">
+                                <label class="label">Gender</label>
+                                <div class="p-t-10">
+                                    <label class="radio-container m-r-45">
+                                        Male
+                                        <input type="radio" checked="checked" name="gender">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="radio-container">
+                                        Female
+                                        <input type="radio" name="gender">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="roww roww-space">
+                        <div class=".col-2-2">
+                            <div class="input-group">
+                                <label class="label">Email</label>
+                                <input asp-for="Email" class="input--style-4" type="email">
+                            </div>
+                        </div>
+                        <div class=".col-2-2">
+                            <div class="input-group">
+                                <label class="label">Phone Number</label>
+                                <input asp-for="PhoneNumber" class="input--style-4" type="text" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label class="label">Job</label>
+                        <div class="rs-select2 js-select-simple select--no-search">
+                            <select asp-for="Job">
+                                <option disabled selected>Choose option</option>
+                                <option value="Student">Student</option>
+                                <option value="Teacher">Teacher</option>
+                            </select>
+                            <div class="select-dropdown"></div>
+                        </div>
+                    </div>
+                    <div class="p-t-15">
+                        <button class="btn btn--radius-2 btn--blue" type="submit">Sign Up</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

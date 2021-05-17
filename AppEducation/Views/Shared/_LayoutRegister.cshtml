@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebAppEducation</title>
+    <link href="~/pages/register/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="~/pages/register/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link
+    href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+    <link href="~/pages/register/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="~/pages/register/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+    <link href="~/pages/register/css/Register.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="~/pages/register/style_Register.css">
+    <link rel="stylesheet" href="~/pages/register/bootstrap.css">
+    @RenderSection("Head", required: false)
+</head>
+
+<body>
+    <!-- header-top-area-start -->
+    <div class="header-top-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <img class="img-login" src="~/pages/home/img/logo.png">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="account-area text-right">
+                        <ul>
+                            <li><a asp-area="" asp-controller="Account" asp-action="Register">Đăng ký</a></li>
+                            <li><a asp-area="" asp-controller="Account" asp-action="Login">Đăng nhập</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header-mid-area-start -->
+    <div class="header-mid-area ptb-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-5 col-xs-12">
+                    <div class="header-search">
+                        <form action="#">
+                            <input type="text" placeholder="Search entire store here..." />
+                            <a href="#"><i class="fa fa-search"></i></a>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
+                    <div class="logo-area text-center logo-xs-mrg">
+                        <a href="index.html"><img src="~/pages/login/img/logo.png" alt="logo" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- main-menu-area-start -->
+    <div class="main-menu-area hidden-sm hidden-xs sticky-header-1" id="header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center" style="margin-left: 300px;">
+                        <div class="menu-area">
+                            <div class="safe-area">
+                                <a asp-area="" asp-controller="Home" asp-action="Index">Trang Chủ</a>
+                            </div>
+                            <div class="safe-area">
+                                <a asp-area="" asp-controller="Account" asp-action="Register">Đăng Kí</a>
+                            </div>
+                            <div class="safe-area">
+                                <a asp-area="" asp-controller="Account" asp-action="Login">Đăng Nhập</a>
+                            </div>
+                            <div class="safe-area">
+                                <a href="#">Liên Hệ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- main-menu-area-end -->
+    <!-- header-mid-area-end -->
+    @RenderBody()
+    <!-- start footer Area -->
+    <footer>
+        <div class="footer-mid ptb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-12">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="single-footer br-2 xs-mb">
+                                    <div class="footer-title mb-20">
+                                        <h3>Chương Trình</h3>
+                                    </div>
+                                    <div class="footer-mid-menu">
+                                        <ul>
+                                            <li><a href="contact.html">Quy Định</a></li>
+                                            <li><a href="#">Chính Sách Dịch Vụ</a></li>
+                                            <li><a href="#">Chính Sách Bảo Mật</a></li>
+                                            <li><a href="register.html">Kiểm Tra Trình Độ </a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="single-footer br-2 xs-mb">
+                                    <div class="footer-title mb-20">
+                                        <h3>Tài Nguyên Miễn Phí</h3>
+                                    </div>
+                                    <div class="footer-mid-menu">
+                                        <ul>
+                                            <li><a href="contact.html">Tài liệu</a></li>
+                                            <li><a href="#">Blog</a></li>
+                                            <li><a href="#"> Bài test</a></li>
+                                            <li><a href="#">Nhận học miễn phí qua gmail</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="single-footer mrg-sm">
+                            <div class="footer-title mb-20">
+                                <h3>Liên Hệ</h3>
+                            </div>
+                            <div class="footer-contact">
+                                <p class="adress">
+                                    <span>Địa Chỉ</span>
+                                    236 Hoàng Quốc Việt
+                                </p>
+                                <p><span>Số Điện Thoại:</span> (+84)0123456789</p>
+                                <p><span>Gmail:</span> Education@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row bt-2">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="link-follow">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                                <li><a href="#"><i class="fa fa-flickr"></i></a></li>
+                                <li class="hidden-sm"><a href="#"><i class="fa fa-vimeo"></i></a></li>
+                                <li class="hidden-sm"><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    @RenderSection("Scripts", required: false)
+    <script src="~/pages/register/vendor/jquery/jquery.min.js"></script>
+    <script src="~/pages/register/vendor/select2/select2.min.js"></script>
+    <script src="~/pages/register/vendor/datepicker/moment.min.js"></script>
+    <script src="~/pages/register/vendor/datepicker/daterangepicker.js"></script>
+    <script src="~/pages/register/js/global.js"></script>
+    <script src="~/pages/register/bootstrap.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@ViewData["Title"] - MTA EDUCATION</title>
+    @RenderSection("Head", required: false)
+    <link rel="stylesheet" href="~/pages/profile/css/font.google.css">
+    <link rel="stylesheet" href="~/pages/profile/css/OneSignalSDKStyles.css">
+    <link rel="stylesheet" href="~/pages/profile/css/profile.css">
+    <link rel="stylesheet" href="~/pages/profile/css/font-awesome.css">
+    <link rel="stylesheet" href="~/pages/profile/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/pages/profile/css/HeaderUser.css">
+    <link rel="stylesheet" href="~/pages/profile/css/FooterUser.css">
+    <link rel="stylesheet" href="~/pages/profile/css/MainUser.css">
+    
+</head>
+
+<body>
+     <header class="header-fixed header-boxshadow-active">
+        <div class="#wrapper40-scroll" id="#wrapper">
+            <div class="container">
+                <div class="row top-header">
+                    <div class="col-md-4 col-xs-3">
+                        <a href="#homepage">
+                            <img class="header-logo" src="~/pages/profile/images/LogoEducation.png" alt="logo">
+                        </a>
+                    </div>
+                    <div class="col-md-8 col-xs-9">
+                        <nav class="navbar navbar-inverse">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="user-information dropdown-toggle dropdown">
+                                    <a class="dropdown-toggle text-classy" data-toggle="dropdown" role="button"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-user-circle"></i>
+                                        <span id="username"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" style="min-width: fit-content;">
+                                        <li style="width: 100%; margin: 0;">
+                                            <a asp-action="Profile" asp-controller="Account">
+                                                <i class="fa fa-user"></i>
+                                                Your Profile
+                                            </a>
+                                        </li>
+                                        <li style="width: 100%; margin: 0;">
+                                            <a href="#user/package">
+                                                <i class="fa fa-user-md" aria-hidden="true"></i>
+                                                Your Account
+                                            </a>
+                                        </li>
+                                        <li style="width: 100%; margin: 0;">
+                                            <a href="#user/history">
+                                                <i class="fa fa-history"></i>
+                                                History
+                                            </a>
+                                        </li>
+                                        <li style="width: 100%; margin: 0;">
+                                            <a asp-action="Logout" asp-controller="Account">
+                                                <i class="fa fa-door-closed"></i>
+                                                Logout
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-toggle dropdown" data-toggle="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <img src="~/pages/profile/images/flag_vi.png" alt="language_flag" class="flag_uk mr-2">
+                                        Tiếng Việt
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" style="min-width: fit-content;">
+                                        <li>
+                                            <a href="#">
+                                                <img src="~/pages/profile/images/flag_uk.png" alt="flag uk" class="flag_uk">
+                                                Tiếng Anh
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><img src="~/pages/profile/images/flag_vi.png" alt="flag vn" class="flag_uk">
+                                                Tiếng Việt
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="notify-header dropdown-toggle dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <img src="~/pages/profile/images/bell.png" class="bell-notify">
+                                        <span class="text-notify">
+                                            Thông báo
+                                        </span>
+                                    </a>
+                                    <div class="table-notify dropdown-menu ">
+                                        <div class="table-notify-header">
+                                            <div class="col-md-4">
+                                                <span>Thông báo</span>
+                                            </div>
+                                            <div class="col-md-8 menu-notify dropdown">
+                                                <img src="~/pages/profile/images/three-dots.png" class="menu-dots dropdown-toggle"
+                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                <div class="mark-read-menu dropdown-menu"
+                                                    aria-labelledby="dropdownMenuButton">
+                                                    <img src="~/pages/profile/images/polygon-white.png">
+                                                    <div class="content-mark-read">
+                                                        <img src="~/pages/profile/images/check-gray.png">
+                                                        <span>Đánh dấu tất cả là đã đọc</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="table-notify-body">
+
+                                        </div>
+                                        <div class="table-notify-footer">
+                                            <a href="#/user/notification">
+                                                <span>Xem tất cả thông báo</span>
+                                                <img src="~/pages/profile/images/arrow-right.png" class="img-arrow-right"></a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="row header-menu">
+                    <div class="col-md-12 col-xs-12">
+                        <nav class="navbar navbar-inverse">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="#">Chuẩn bị bài</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="JoinClass" asp-action="Create">Học trực tuyến</a>
+                                </li>
+                                <li>
+                                    <a href="#">Kiểm tra</a>
+                                </li>
+                                <li>
+                                    <a href="#">Hỗ trợ</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+    </header>
+    @RenderSection("Header", required: false)
+
+    @RenderBody()
+
+    @* <footer class="footer">
+        <div class="container" style="padding-top: 70px;">
+            <div class="row">
+
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <p class="copy-right" style="margin-top: 10px; color: azure;">Bản quyền © 2020 MTA Education -
+                            Version Demo </p>
+                    </div>
+                    <div class="col-sm-6 col-xs-12 text-right">
+                        <a class="btn btn-facebook btn-social mr-4" href="https://www.facebook.com" target="_blank">
+                            <i style="color:cyan;" class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                        <a class="btn btn-youtube btn-social mr-4" href="https://www.youtube.com" target="_blank">
+                            <i style="color: crimson;" class="fa fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+    </footer> *@
+
+
+    @RenderSection("Script", required: false)
+    <script>
+        document.getElementById("username").innerHTML = "@User.Identity.Name";
+    </script>
+    <script src="~/pages/profile/js/profile.js"></script>
+    <script src="~/pages/profile/js/1209952130-idpiframe.js" async=""></script>
+    <script src="~/pages/profile/js/analytics.js" async=""></script>
+    <script src="~/pages/profile/js/bootstrap.min.js" async=""></script>
+    <script src="~/pages/profile/js/index.101202010.js" async=""></script>
+    <script src="~/pages/profile/js/jquery.min.js" async=""></script>
+    <script src="~/pages/profile/js/main.chunkhash.101202010.bundle.js" async=""></script>
+    <script src="~/pages/profile/js/OneSignalPageSDKES6.js" async=""></script>
+    <script src="~/pages/profile/js/OneSignalSDK.js" async=""></script>
+    <script src="~/pages/profile/js/main_vendor.chunkhash.101202010.bundle.js"></script>
+    <script src="~/pages/profile/js/jquery.3.4.1.js"></script>
+</body>
+
+</html>

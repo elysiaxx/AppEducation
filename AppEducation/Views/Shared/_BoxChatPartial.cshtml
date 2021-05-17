@@ -1,0 +1,29 @@
+﻿@model List<UserCall>
+<div class="box-user-list box-list">
+    <h5 class="vcrx-title">Người dùng</h5>
+    <div class="group-user">
+        <div id="teacher-part">
+            <p class="user-title">Giáo viên</p>
+            <div class="contact-list-panel">
+                <ul id="contacts-teacher" class="list-group list-group-striped">
+                </ul>
+            </div>
+        </div>
+        <div id="student-part">
+            <p class="user-title">Học sinh (<span class="user-count"></span>)</p>
+            <div class="contact-list-panel">
+                <ul id="contacts-student" class="list-group list-group-striped">
+                    @foreach (UserCall u in Model)
+                    {
+                        <li>@u.FullName</li>
+                    }
+                </ul>
+            </div>
+            @*<p class="user-title">Học sinh (<span class="user-count"></span>)</p>
+        <div class="contact-list-panel">
+            <ul id="contacts-student" class="list-group list-group-striped">
+            </ul>
+        </div>*@
+        </div>
+    </div>
+</div>

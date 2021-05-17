@@ -1,0 +1,323 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutPresent.cshtml";
+}
+@model Classes
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<div id="topica-vcr">
+    <div class="AtlaskitThemeProvider__LegacyReset-sc-431dkp-0 tOoji">
+        <div class="wrapper">
+            <div class="vcrx-body vcrx-item-box">
+                <div class="group-left">
+                    <div class="vcrx-box-body vcrx-box-left">
+                        <div class="vcrx-item-box vcrx-user-list" id="userlist">
+                            <div class="box-user-list box-list">
+                                <h5 class="vcrx-title">Người dùng</h5>
+                                <div class="group-user">
+                                    <div id="teacher-part">
+                                        <p class="user-title">Giáo viên</p>
+                                        <div class="contact-list-panel">
+                                            <ul id="contacts-teacher" class="list-group list-group-striped">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div id="student-part">
+                                        <p class="user-title">Học sinh (<span class="user-count"></span>)</p>
+                                        <div class="contact-list-panel">
+                                            <ul id="contacts-student" class="list-group list-group-striped">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="vcrx-item-box vcrx-tool">
+                            <div class="box-tool box-list">
+                                <div class="box-title-webcam">
+                                    <p class="vcrx-title">Webcam</p>
+                                    <div class="webcam-triangle"></div>
+                                </div>
+                                <div class="line-top"></div>
+                                <div class="group-tool">
+                                    <div class="tool-triangle"></div>
+                                    <div class="box-raise-hand">
+                                        <button class="icon-tool ">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="vcrx-item-box vcrx-webcam">
+                            <div class="box-webcam box-list">
+                                <div class="video-cam">
+                                    <video id="camera" autoplay="autoplay"></video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="group-right">
+                    <div class="vcrx-item-box vcrx-header">
+                        <div class="header">
+                            <div class="box-logo-topica"><img src="~/pages/Presents/images/logo.png"></div>
+                            <div class="box-media-control">
+                                <div class="group-media-control">
+                                    <div class="media-control">
+                                        <div title="Cam" id="cam" class="sim-row-edit-icon mic-control media-box">
+                                            <i class="fa fa-eye"></i>
+                                        </div>
+                                        <div title="Mic" id="mic" class="sim-row-edit-icon1 mic-control media-box">
+                                            <i class="fa fa-microphone"></i>
+                                        </div>
+                                        <div title="Loa" id="speaker" class="sim-row-edit-icon2 volumn-control media-box">
+                                            <i class="fa fa-bell"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-header-control">
+                                <div class="group-header-control">
+                                    <div class="log-out">
+                                        <button title="Đăng xuất" class="btn-logout" data-toggle="modal"
+                                                data-target="#myModallogOut">
+                                            <svg class="icon icon-px_ic__Logout">
+                                                <use xlink:href="#icon-px_ic__Logout"></use>
+                                            </svg> Thoát
+                                        </button>
+                                        <div id="myModallogOut" class="modal fade" role="dialog" style="height:200px;width:300px;">
+                                            <div>
+                                                <div>
+                                                    <div class="modal-header">
+                                                        <button id="close" type="button" class="close"
+                                                                data-dismiss="modal" aria-label="Close">
+                                                            <svg class="icon icon-px_ic___Delete">
+                                                                <use xlink:href="#icon-px_ic___Delete"></use>
+                                                            </svg>
+                                                        </button>
+                                                        <h4 class="modal-title">Thông báo</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p class="content-logout">
+                                                            Bạn có chắc chắn thoát khỏi lớp?
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn-border">
+                                                            <a asp-action="Create" asp-controller="JoinClass">Thoát khỏi lớp</a>
+                                                        </button>
+                                                        <button class="btn-full" data-dismiss="modal">
+                                                            Đóng
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group-slide-chat">
+                        <div class="vcrx-box-body vcrx-box-center">
+                            <div class="vcrx-item-box vcrx-slide">
+                                <div class="box-slide box-list">
+                                    <div class="vcr-slider">
+                                        <div class="vcr-title-user full-width">
+                                            <p class="vcrx-title">
+                                                Chủ đề: <span>
+                                                    @Model.ClassName
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="vcr-slide-box">
+                                            <video id="screen" autoplay="autoplay"></video>
+                                        </div>
+                                        <div>
+                                            <button class="btn-lg btn-warning" id="zoom">Full Screen</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="vcrx-box-body vcrx-box-right">
+                            <div class="vcrx-item-box vcrx-timer">
+                                <div class="box-timer box-list">
+                                    <h5 class="vcrx-title">Thời gian</h5>
+                                    <div class="box-timer-content">
+                                        <div class="box-timer-count">
+                                            <span id="datetime" class="timer-count-text">
+
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="vcrx-item-box vcrx-chat">
+                                <div class="box-chat box-list">
+                                    <div class="vcr-body-chat">
+                                        <div class="vcr-title-user">
+                                            <h5 class="vcrx-title">Trò chuyện</h5>
+                                        </div>
+                                        <div class=" vcr-box vcr-public-chat">
+                                            <div class="tab">
+                                                <ul class="nav nav-tabs">
+                                                    <li id="public" class="nav-item active">
+                                                        <a class="nav-link active" data-toggle="tab"
+                                                           href="#chat-public">
+                                                            <div class="box-icon-chat icon-public">
+                                                                <svg class="icon icon-px_ic__Chat">
+                                                                    <use xlink:href="#icon-px_ic__Chat"></use>
+                                                                </svg>
+                                                            </div>Công khai
+                                                        </a>
+                                                    </li>
+                                                    <li id="private" class="nav-item">
+                                                        <a class="nav-link" data-toggle="tab" href="#chat-group">
+                                                            <div class="box-icon-chat icon-public">
+                                                                <svg class="icon icon-px_ic__Option">
+                                                                    <use xlink:href="#icon-px_ic__Option"></use>
+                                                                </svg>
+                                                            </div><span>Tùy chọn</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item" style="display: none;">
+                                                        <a class="nav-link" data-toggle="tab" href="#chat-particular">
+                                                            <div class="box-icon-chat icon-public">
+                                                                <svg class="icon icon-px_ic__User">
+                                                                    <use xlink:href="#icon-px_ic__User"></use>
+                                                                </svg>
+                                                            </div>
+                                                            <span id="name-private"></span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div id="chat-public" class="tab-pane active">
+                                                        <div>
+                                                            <div id="sideToolbarContainerChat">
+                                                                <div id="chat_container" data-userid-private="0"
+                                                                     class="sideToolbarContainer__inner">
+                                                                    <div id="chatconversation">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="chat-group" class="tab-pane fade">
+                                                        <div>
+                                                            <ul id="chat-userlist" class="list-group chat-userlist">
+                                                                <!-- Show list user in chatbox -->
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div id="chat-particular" class="tab-pane">
+                                                        <a id="bk-icon" class="nav-link" data-toggle="tab" href="#chat-group">
+                                                            <div class="back">
+                                                                <div class="box-media-control back-chat">
+                                                                    <div class="group-media-control">
+                                                                        <div class="media-control">
+                                                                            <div class="mic-control media-box">
+                                                                                <i class="fa fa-arrow-left"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-bar">
+                                        <div class="modal fade" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 400px;height: 185px;">
+                                            <div style="padding: 10px;">
+                                                <div class="modal-header text-center">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="card-pane">
+                                                    <form>
+                                                        <div class="file-field input-field">
+                                                            <div class="btn">
+                                                                <span>
+                                                                    FILE
+                                                                </span>
+                                                                <input type="file" id="fileInput" name="files" />
+                                                            </div>
+                                                            <div class="file-path-wrapper">
+                                                                <input type="text" id="fileInput" class="file-path" placeholder="choose multiple file">
+                                                            </div>
+                                                            @*<input type="button" id="sendFile" value="Send File" class="btn close" data-dismiss="modal" aria-label="Close" style="margin-left: 150px;" />*@
+                                                            <button type="button" id="sendFile" class="btn close" data-dismiss="modal" aria-label="Close" style="margin-left: 150px;">
+                                                                <span>Send File</span>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <a id="a_sf" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalSubscriptionForm">Chọn gửi tệp tin</a>
+                                        </div>
+                                        <a id="download"></a>
+                                        <textarea class="text-area" spellcheck="false" id="usermsg" data-i18n="[placeholder]chat.messagebox" placeholder="Nhập tin nhắn"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const classid = "@Model.ClassID";
+    // Set the date we're counting down to
+    var now1 = new Date();
+    var countDownDate = now1.setHours( now1.getHours() + 1);
+
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+
+    // Get today's date and time
+    var now = new Date().getTime();
+
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Output the result in an element with id="demo"
+    document.getElementById("datetime").innerHTML = minutes + "m " + seconds + "s ";
+
+    // If the count down is over, write some text
+    if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "EXPIRED";
+    }
+    }, 1000);
+    $(".sim-row-edit-icon").click(function () {
+    $(this).find('i').toggleClass('fas fa-eye-slash');
+    });
+    $(".sim-row-edit-icon1").click(function () {
+    $(this).find('i').toggleClass('fas fa-microphone-slash');
+    });
+    $(".sim-row-edit-icon2").click(function () {
+    $(this).find('i').toggleClass('fas fa-bell-slash');
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+<script src="~/js/ConnectionHub.js"></script>

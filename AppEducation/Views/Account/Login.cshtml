@@ -1,0 +1,45 @@
+@model LoginModel
+@{
+    ViewData["Title"] = "User Login";
+	Layout = "_Layout";
+}
+
+@section Head {
+	<link rel="stylesheet" type="text/css" href="~/pages/login/dangnhap.css">
+}
+<div class="wrapper">
+	<div class="logo">
+		<img src="~/pages/login/img/logo.png" alt="GitHub">
+	</div>
+	<div class="title">
+		<p>Sign In</p>
+	</div>
+	<div asp-validation-summary="All" class="text-danger"></div>
+	<form asp-area="" asp-controller="Account" asp-action="Login" asp-antiforgery="true"  >
+		<div class="form">
+			<div class="input_field">
+				<label>User Name</label>
+				<input asp-for="UserName" type="text" class="input" ValidateExpression="\d+">
+			</div>
+			<div class="input_field">
+				<label>Password</label>
+				<input asp-for="Password" type="password" class="input">
+				<a href="#" class="forgot">Forgot password?</a>
+			</div>
+			<div class="btn">
+				<input type="submit" value="Sign in" class="sign_btn">
+			</div>
+		</div>
+	</form>
+	<div class="create_act">
+		<p>New to Account? <a href="#">Create an account.</a></p>
+	</div>
+	<div class="footer">
+		<ul>
+			<li><a href="#">Terms</a></li>
+			<li><a href="#">Privacy</a></li>
+			<li><a href="#">Security</a></li>
+			<li><a href="#">Contact CallCenter</a></li>
+		</ul>
+	</div>
+</div>

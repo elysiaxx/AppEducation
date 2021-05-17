@@ -1,0 +1,303 @@
+*{
+    list-style: none;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+}
+.tabs{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: block;
+}
+.tabs .tab-header ul{
+	display: flex;
+	background: #fbfbfb;
+	border: 1px solid #dddddd;
+	border-radius: 5px;
+}
+.tabs .tab-header ul li{
+    width: 250px;
+	padding: 15px;
+	border-right: 1px solid #dddddd;
+	text-align: center;
+	color: #3b3b3b;
+	text-transform: uppercase;
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: 3px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	position: relative;
+	list-style: none;
+}
+.tabs .tab-header ul li:last-child{
+	border-right: 0px;
+}
+
+.tabs .tab-header ul li:before{
+	content: "";
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background: #028f68;
+	opacity: 0;
+	transition: all 0.2s ease;
+}
+
+.tabs .tab-header ul li:hover,
+.tabs .tab-header ul li.active{
+	background: #e8f5f1;
+	color: #028f68;
+}
+
+.tabs .tab-header ul li:hover:before,
+.tabs .tab-header ul li.active:before{
+	opacity: 1;
+}
+.content{
+	background: #fbfbfb;
+	border: 1px solid #dddddd;
+	border-radius: 5px;
+	height: 650px;
+	overflow: auto;
+	position: relative;
+}
+
+.tab_wrap .title{
+	font-size: 20px;
+	margin-bottom: 15px;
+	font-weight: 600;
+}
+.tab_wrap .tab_content p{
+	font-size: 14px;
+	line-height: 22px;
+	margin-bottom: 10px;
+}
+.Add{
+	border-bottom: 1px solid #3b3b3b;
+	padding: 20px;
+}
+.Add .Add-center{
+	align-items: center;
+    display: flex;
+	position: relative;
+	margin-left: 110px;
+
+}
+.Add .Add-cont{
+	align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.Add .Add-Icons{
+	align-items: center;
+    background-color: #f1f3f4;
+    background-position: center;
+    background-size: 100%;
+    border-radius: 50%;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    margin-bottom: 8px;
+    transition: background .1s;
+	width: 40px;
+	cursor: pointer;
+}
+.Add-Icons:hover{
+    background-color: gray;
+    opacity: 0.8;
+}
+.video-cont{
+	height: 90%;
+	background: #3b3b3b;
+}
+.control-cont .control-detail{
+	align-items: center;
+	position: relative;
+	display: block;
+	margin: 15px 0 0 15px;
+}
+a.buttons{
+	background-color: white;
+	border: none;
+	color: black;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	cursor: pointer;
+	height: 100%;
+}
+a.buttons:hover{
+	background-color:whitesmoke;
+}
+.control-cont .control-detail a{
+	text-decoration: none;
+}
+.control-icons{
+	display: flex;
+	align-items: center;
+	justify-items: center;
+	position: relative;
+	min-height: 9vh;
+	margin:5px 0 0 25px;
+}
+.Icons{
+	align-items: center;    
+    background-position: center;
+    background-size: 100%;
+    border-radius: 50%;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    margin-bottom: 8px;
+    transition: background .1s;
+	width: 40px;
+	cursor: pointer;
+    margin-left: 35px;
+    background-color: #f1f3f4;  
+}
+.Icons:hover{
+    background-color:red;
+}
+.control-cont .control-present{
+	align-items: center;
+	position: relative;
+	display: flex;
+	margin: 15px 0 0 15px;
+}
+.control-cont .control-present a{
+	text-decoration: none;
+}
+.Send-cont{
+	display: flex;
+	height: 75px;	
+	position:fixed;
+	bottom: 0;
+	background: white;
+	width: 350px;
+}
+.send-input{
+	margin: 10px 0 0 10px;
+}
+.send-input .input-div{
+	position: relative;
+	margin: 15px 0;
+    border-bottom: 2px solid #d9d9d9;
+}
+.send-input .input-div.one{
+	margin-top: 0;
+	width: 100%;
+}
+
+.input-div > div{
+    position: relative;
+	height: 45px;
+
+}
+.input-div:before, .input-div:after{
+	content: '';
+	position: absolute;
+	bottom: -2px;
+	width: 0%;
+	height: 2px;
+	background-color: #38d39f;
+	transition: .4s;
+}
+
+.input-div:before{
+	right: 50%;
+}
+
+.input-div:after{
+	left: 50%;
+}
+
+.input-div.focus:before, .input-div.focus:after{
+	width: 50%;
+}
+.input-div > div > input{
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	border: none;
+	outline: none;
+	background: none;	
+	font-size: 0.9rem;
+	color: #555;
+	font-family: 'poppins', sans-serif;
+}
+form{
+	width: 280px;
+}
+.send{
+	margin:20px 15px 0 0;
+}
+.Icons-sent{
+	align-items: center;    
+    background-position: center;
+    background-size: 100%;
+    border-radius: 50%;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    margin-bottom: 8px;
+    transition: background .1s;
+	width: 40px;
+	cursor: pointer;
+    margin-left: 35px;
+    background-color: #f1f3f4;  
+}
+.Icons-sent:hover{
+    background: rgb(85, 85, 207);
+    
+}
+/*modal*/
+.modal{
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    overflow: auto;
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+.create-cont{
+	display: flex;
+    width: 50%;
+    height: 300px;
+    background-color: #fefefe;
+    margin: 5% auto 15% auto;
+    border-radius: 15px;
+	border: none;
+
+}
+.present-cont{
+	margin: 15px 0 0 70px;
+	width: 100%;
+}
+.present-cont .text{
+	padding:10px;
+}
+.modal-present{
+	width: 100%;
+}
+.div-button{
+	display: flex;
+	justify-content: center;
+}
+.div-button a button{
+	margin: 10px 0 0 15px;
+	width: 100px;
+	bottom:0;
+}

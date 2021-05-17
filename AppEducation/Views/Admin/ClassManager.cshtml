@@ -1,0 +1,77 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "ClassManager";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model IEnumerable<Classes>
+<div class="card mb-4">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <a class="btn btn-success" asp-action="Create" asp-controller="Admin">Tạo mới</a>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <form asp-action="Index" method="get">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                        </div>
+                        <div class="cold-md-3">
+                            <button type="submit" class="btn btn-primary">Tìm</button>
+                            <button type="button" onclick="window.location.href='/User/Index'" class="btn btn-dark">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Order Number</th>
+                        <th>ID</th>
+                        <th>Class Name</th>
+                        <th>Topic</th>
+                        <th>Active</th>
+                        <th>Online Student</th>
+                        <th>Modify</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                @{ 
+                    var i = 0;
+                    foreach (Classes cls in Model)
+                    {
+                        <tr>
+                            <td data-label="Order Number">@i</td>
+                            <td data-label="ID">@cls.ClassID</td>
+                            <td data-label="ClassName">@cls.ClassName</td>
+                            <td data-label="Topic">@cls.Topic</td>
+                            <td data-label="Active">@cls.isActive</td>
+                            <td data-label="OnlineStudent">@cls.OnlineStudent</td>
+
+                            @if (cls.isActive == true)
+                            {
+                                <td data-label="Modify">Đang Học Online</td>
+
+                            }
+                            else
+                            {
+                            <td data-label="Modify">
+                                @Html.ActionLink("Detail", "DetailsTime", "Admin", new { id = cls.ClassID })
+                            </td>
+                            }                                       
+                        </tr>
+                        i++;
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
