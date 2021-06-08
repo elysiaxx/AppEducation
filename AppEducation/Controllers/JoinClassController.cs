@@ -44,9 +44,9 @@ namespace AppEducation.Controllers
             IEnumerable<Classes> classes = _context.Classes;
             JoinClassInfor joinClassInfor = new JoinClassInfor();
             joinClassInfor.AvailableClasses = classes.Where(c => c.isActive == true);
-            joinClassInfor.AvailableClasses.ToList().ForEach( c => {
+            joinClassInfor.AvailableClasses.ToList().ForEach(c =>
+            {
                 c.User = _context.Users.SingleOrDefault(u => u.Id == c.UserId);
-                c.HOC = _context.HOClasses.SingleOrDefault(u => u.hocID == c.ClassID);
             });
             return View(joinClassInfor);
         }
@@ -59,13 +59,13 @@ namespace AppEducation.Controllers
             {
                 AppUser currentUser = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 joinClassInfor.NewClass.User = currentUser;
-                HistoryOfClass hoc = new HistoryOfClass
-                {
-                    hocID = joinClassInfor.NewClass.ClassID,
-                    startTime = DateTime.Now,
-                };
+                //HistoryOfClass hoc = new HistoryOfClass
+                //{
+                //    hocID = joinClassInfor.NewClass.ClassID,
+                //    startTime = DateTime.Now,
+                //};
                 joinClassInfor.NewClass.isActive = true;
-                joinClassInfor.NewClass.HOC = hoc;
+                //joinClassInfor.NewClass.HOC = hoc;
                 _context.Classes.Add(joinClassInfor.NewClass);
                 await _context.SaveChangesAsync();
                 WriteCookies("ClassName", joinClassInfor.NewClass.ClassName, true);
@@ -89,12 +89,12 @@ namespace AppEducation.Controllers
                     WriteCookies("ClassName", cls.ClassName, true);
                     WriteCookies("ClassID", cls.ClassID, true);
                     WriteCookies("Topic", cls.Topic, true);
-                    cls.OnlineStudent += 1;
                     _context.SaveChanges();
-                    return RedirectToAction("Present", "JoinClass", cls);
+                    return RedirectToAction("Room", "Room", cls);
                 }
             }
-            return RedirectToAction("Create","JoinClass", joinClassInfor);
+            return View(joinClassInfor);
+            //return RedirectToAction("Create","JoinClass", joinClassInfor);
         }
         public IActionResult LoadUserList(string userCalls)
         {
@@ -111,7 +111,6 @@ namespace AppEducation.Controllers
                 }
             }
             return View(cls);
-
         }
 
         [HttpGet]

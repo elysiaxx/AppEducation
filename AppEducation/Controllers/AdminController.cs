@@ -12,7 +12,7 @@ using System;
 
 namespace AppEducation.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private UserManager<AppUser> userManager;
@@ -38,15 +38,15 @@ namespace AppEducation.Controllers
             IEnumerable<Classes> cls = context.Classes;
             return View(cls);
         }
-        [HttpGet]
-        public async Task<IActionResult> DetailsTime(string id)
-        {
-            Classes classes = await context.Classes.FindAsync(id);
+        //[HttpGet]
+        //public async Task<IActionResult> DetailsTime(string id)
+        //{
+        //    Classes classes = await context.Classes.FindAsync(id);
 
-            HistoryOfClass profile = context.HOClasses.SingleOrDefault(p => p.hocID == classes.ClassID);
+        //    HistoryOfClass profile = context.HOClasses.SingleOrDefault(p => p.hocID == classes.ClassID);
 
-            return View(profile);
-        }
+        //    return View(profile);
+        //}
         /*        public async Task<JsonResult> detailasjson(string id)
                 {
                     AppUser user = await userManager.FindByIdAsync(id);
@@ -196,7 +196,6 @@ namespace AppEducation.Controllers
                         _classinfor.ClassName = class_.ClassName;
                         _classinfor.Topic = class_.Topic;
                         _classinfor.TeacherId = class_.UserId;
-                        _classinfor.OnlineStudent = class_.OnlineStudent;
                         classInfos.Add(_classinfor);
                     }
                 }

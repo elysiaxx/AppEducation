@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @RenderSection("Head", required: false)
+    <link rel="stylesheet" href="~/pages/profile/css/font.google.css">
+    <link rel="stylesheet" href="~/pages/profile/css/OneSignalSDKStyles.css">
+    <link rel="stylesheet" href="~/pages/profile/css/profile.css">
+    <link rel="stylesheet" href="~/pages/profile/css/font-awesome.css">
+    <link rel="stylesheet" href="~/pages/profile/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/pages/profile/css/FooterUser.css">
+    <link rel="stylesheet" href="~/pages/profile/css/MainUser.css">
+    <link rel="stylesheet" href="~/pages/room/layoutroom.css" />
+</head>
+@model Classes
+<body>
+    <div style="background-color: rgb(255, 255, 255); min-height: 100vh;align-items: center;display:flex;">
+        <header class="myRoomHeader">
+            <div class="myRoomToolbar">
+                <div class="container container-header-root">
+                    <a class="d-flex" href="#homepage">
+                        <img class="header-logo" src="~/pages/profile/images/LogoEducation.png" alt="logo">
+                    </a>
+                    <div class="d-flex" style="align-items: center;left: 50%;transform: translate(-50%);"></div>
+                    <div class="align-items-center headerRight">
+                        <div style="height:63px;display:flex;align-items:center;">
+                            <button href="#" class="myBtnCustom" data-toggle="dropdown" id="dropdownNotify" style=" background-color: rgb(240, 242, 245);height:44px;width:44px;">
+                                <i class="fas fa-bell"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-label="dropdownNotify">
+                                <div class="myList">
+                                    <span style="color: gray; padding: 1rem 0px 0px 1rem;">Hôm nay</span>
+                                    <button class="myListItem" style="width: 100%;  border-bottom: 1px solid rgba(0, 0, 0, 0.063);">
+                                        <div style="margin: 0; padding: 0.5rem 1rem; max-height: 80px; ">
+                                            <p style="margin:0px;font-size:13px;font-family:'Open Sans', sans-serif;line-height: 1.5;font-weight: 600!important;color: rgba(0, 0, 0, 0.87);">Welcome to my this class room</p>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:63px;display:flex;align-items:center;">
+                            <button class="dropdown-toggle myBtnCustom" data-toggle="dropdown" id="dropdownProfile" style=" background-color: rgb(240, 242, 245);height:44px;width:44px;">
+                                <i class="fa fa-user-circle"></i>
+                                <span id="username"></span>
+                            </button>
+                            <div class="dropdown-menu" aria-label="dropdownProfile">
+                                <div class="myList">
+                                    <button class="myListItem" style="width: 100%; margin: 0;">
+                                        <div class="myItemIcon">
+                                            <img src="~/pages/room/images/Facebook_f_logo__2019_.svg" style="width: 40px; height: 40px; background-color: transparent;" />
+                                        </div>
+                                        <div>
+                                            <p style="margin:0px;font-size:13px;font-family:'Open Sans', sans-serif;line-height: 1.5;font-weight: 600!important;color: rgba(0, 0, 0, 0.87);">Tạo liên kết Facebook</p>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="" style="display:flex; max-width:1280px;margin-top:63px;width: 100%;display: block;box-sizing: border-box;margin-left: auto;margin-right: auto;">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

@@ -12,15 +12,15 @@ function changeFunction(){
     saveButton.style.display = 'block';
     cancelButton.style.display = "block";
 }
-cancelButton.onclick = () => {
+cancelButton.addEventListener('click', () => {
     for (var i = 0; i < newinput.length; i++) {
         newinput[i].disabled = false;
     }
     changeButton.style.display = "block";
     saveButton.style.display = 'none';
     cancelButton.style.display = "none";
-}
-seePW.onclick = () => {
+});
+seePW.addEventListener('click', () => {
     var pw = document.getElementById("Password");
     if (pw.getAttribute("type") == "password") {
         pw.setAttribute("type", "text");
@@ -28,7 +28,7 @@ seePW.onclick = () => {
     else {
         pw.setAttribute("type", "password");
     }
-}
+})
 
 var modal = document.getElementById("myModal");
 var img = document.getElementById("myImg");
@@ -41,6 +41,6 @@ img.onclick = function(){
     captionText.innerHTML = this.alt;
 }
 var span = document.getElementsByClassName("close")[0];
-span.onclick = function() { 
+span.addEventListener('click', function () { 
     modal.style.display = "none";
-}
+})

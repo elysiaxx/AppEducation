@@ -15,6 +15,7 @@
 }
 <section>
     <div class="container">
+        
         <div class="row">
             <div class="Menu-add-class">
                 <div class="link-follow">
@@ -23,33 +24,40 @@
                     </ul>
                 </div>
                 <h1 class="text-center">Danh Sách Lớp</h1>
+                <div class="input-group col-md-8" style="display:flex;">
+                    <input type="text" class="form-control" aria-label="Search class" placeholder="Search class">
+                    <div class="input-group-append">
+                        <button type="button" style="height: 100%;border: 1px solid #ccc;padding: 5px;background-color: white;color: gray;">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             <hr>
-                
-                    @foreach (Classes classes in Model.AvailableClasses.ToList())
-                    {
-                        if (classes.isActive)
-                        {
-                        <div class="col-md-3 product-grid">
-                            <div class="swiper-slide">
-                                <div class="slider-box">
-                                    <p class="time">Lớp</p>
-                                    <p class="detail">@classes.ClassName</p>
-                                    <div class="img-box">
-                                        <img src="~/pages/create/img/icon.jpeg">
-                                    </div>
-                                    <span class="detail">Chủ đề : @classes.Topic</span>
-                                    <span class="giaovien">Giao Vien : @classes.User.UserName</span>
-                                    <span class="online">Online: @classes.OnlineStudent</span>
-                                    <div class="cart">
-                                        <a asp-action="Join" asp-controller="JoinClass" data-toggle="modal" data-target="#modalForm">vào lớp</a>
-                                    </div>
+
+            @foreach (Classes classes in Model.AvailableClasses.ToList())
+            {
+                if (classes.isActive)
+                {
+                    <div class="col-md-3 product-grid">
+                        <div class="swiper-slide">
+                            <div class="slider-box">
+                                <p class="time">Lớp</p>
+                                <p class="detail">@classes.ClassName</p>
+                                <div class="img-box">
+                                    <img src="~/pages/create/img/icon.jpeg">
+                                </div>
+                                <span class="detail">Chủ đề : @classes.Topic</span>
+                                <span class="giaovien">Giao Vien : @classes.User.UserName</span>
+                                <div class="cart">
+                                    <a asp-action="Join" asp-controller="JoinClass" data-toggle="modal" data-target="#modalForm">vào lớp</a>
                                 </div>
                             </div>
                         </div>
-                            }
-                        }
-                    
+                    </div>
+                }
+            }
+
         </div>
     </div>
 </section>
@@ -97,6 +105,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <hr class="divider" />
             <div class="modal-body mx-3">
                 <div class="md-form mb-5">
                     <input   type="text" id="form3" class="form-control validate" asp-for="NewClass.ClassID">
@@ -112,4 +121,3 @@
 <script src="~/pages/create/bootstrap.min.js"></script>
 <script type="text/javascript" src="~/js/Jquery3.4.1.min.js"></script>
 <script type="text/javascript" src="~/pages/create/mdb.js"></script>
-<script src="~/ts/app.js"></script>

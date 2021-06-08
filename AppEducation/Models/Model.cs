@@ -15,13 +15,9 @@ namespace AppEducation.Models
         public string ClassID { get; set; }
         public string ClassName { get; set; }
         public string Topic { get; set; }
-        public string UserId { get; set; }
         public bool isActive { get; set; }
+        public string UserId { get; set; }
         public AppUser User { get; set; }
-        [DefaultValue(0)]
-        public int OnlineStudent { get; set; }
-        public string hocID { get; set; }
-        public HistoryOfClass HOC { get; set; }
     }
     public class HistoryOfClass
     {

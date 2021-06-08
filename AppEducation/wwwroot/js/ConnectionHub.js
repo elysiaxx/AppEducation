@@ -43,6 +43,7 @@ var remoteDataChannels = {};
 var isChatPublic = true;
 var isChatPrivate = false;
 let PartnerChatConnectionID; 
+let chatPrivateTargetID;
 let myConnectionID;
 var fileInput = document.querySelector("input#fileInput");
 var sendFileButton = document.querySelector("button#sendFile");
@@ -122,7 +123,6 @@ const callbackUserMediaSuccess = (stream) => {
 //tuong tu vơi audio
 const callbackAudioMediaSuccess = (stream) => {
     console.log("WebRTC: got audio media stream");
-    var camera = document.querySelector("#camera");
     localaudio = new MediaStream(stream.getTracks());
     var tracks = stream.getTracks();
     for (var i = 0; i < tracks.length ; i++)
@@ -136,6 +136,7 @@ const initializeDevices = (userinfo) => {
     console.log(userinfo)
     console.log('WebRTC: InitializeUserMedia: ');
     if (userinfo.isCaller) { // nếu là giáo viên sẽ chia sẻ cả camera và màn hình
+        console.log("teacher")
         navigator.mediaDevices.getDisplayMedia({ video: true }) //screen
             .then((stream) => callbackDisplayMediaSuccess(stream))
             .catch(err => console.log(err));
@@ -150,6 +151,7 @@ const initializeDevices = (userinfo) => {
             .catch(err => console.log(err));
     }
     else { // học sinh
+        console.log("student");
         localcamera = new MediaStream();
         localscreen = new MediaStream();
         navigator.mediaDevices.getUserMedia(audioConstraints)     //audio
@@ -254,32 +256,25 @@ const sendHubSignal = (candidate, partnerClientId) => {
 // khi có một track được attach vào kế nối, bên kia kết nối sẽ gọi hàm này
 // hàm này thực hiện thêm cách track vào các thẻ để hiển thị video , screeen, hay audio 
 const callbackAddTrack = (connection, e) => {
-    if (e.streams && e.streams[0]) {
-        console.log('add Track 1');
-        console.log(e.streams);
-    } else {
-        console.log("add Track 2");
-        if (e.track.kind == "audio") {
-            console.log("add track : " + e.track);
-            remoteAudio.addTrack(e.track);
+    console.log(e);
+    
+    if (e.track.kind == "audio") {
+        console.log("add track : " + e.track);
+        remoteAudio.addTrack(e.track);
+        cameraStream.addTrack(e.track);
+        cameraStream.onremovetrack = e => console.log("Remove track ", e);
+        document.querySelector("#camera").srcObject = cameraStream;
+    }
+    else {
+        console.log("add track video")
+        if (cameraStream.getVideoTracks().length == 0) {
             cameraStream.addTrack(e.track);
             document.querySelector("#camera").srcObject = cameraStream;
         }
         else {
-            console.log("add track video")
-            if (localcamera.getVideoTracks().length == 0) {
-                var camera = document.querySelector("#camera");
-                cameraStream.addTrack(e.track);
-                localcamera.addTrack(e.track);
-                document.querySelector("#camera").srcObject = cameraStream;
-            }
-            else {
-                localscreen.addTrack(e.track);
-                var screen = document.querySelector("#screen");
-                screenStream.addTrack(e.track);
-                localscreen.addTrack(e.track);
-                document.querySelector("#screen").srcObject = screenStream;
-            }
+            screenStream.addTrack(e.track);
+            screenStream.onremovetrack = e => console.log("remove track ", e);
+            document.querySelector("#screen").srcObject = screenStream;
         }
     }
 }
@@ -301,55 +296,7 @@ const callbackIceCandidate = (evt, connection, partnerClientId) => {
 const initializeConnection = (partnerClientId) => {
     console.log('WebRTC: Initializing connection...');
     var connection = new RTCPeerConnection(peerConnectionConfig);
-    // tạo Kênh dữ liệu để chat 
-    //var LocaldataChannel = connection.createDataChannel("chat");
-    //LocaldataChannel.binaryType = "arraybuffer";
-    //LocaldataChannel.addEventListener('open', event => {
-    //    console.log("open datachanel");
-    //});
-    //LocaldataChannel.addEventListener('close', event => {
-    //    console.log("close datachanel");
-    //});
-    //connection.addEventListener('datachannel', (event) => {
-    //    var remotedataChannel = event.channel;
-    //    console.log(remotedataChannel);
-    //    // sự kiện khi bên kia nhận được tin nhắn 
-    //    if (remotedataChannel.label == "chat") {
-    //        remotedataChannel.binaryType = "arraybuffer";
-    //        remotedataChannel.onmessage = (e) => {
-    //            var data = JSON.parse(e.data);
-    //            console.log(data);
-    //            console.log(data.connectionID);
-    //            if (data.type == "particular") { // nếu là nhắn tin riêng
-    //                if (!document.querySelector("#P" + data.connectionID)) {
-    //                    makeNewBoxChatPrivate(data.connectionID);
-    //                }
-    //                receiveMessage(data.message, document.querySelector("#P" + data.connectionID).querySelector("#chatconversation"),data.user)
-    //            }
-    //            else if (data.type == "public") { // nếu là nhắn tin cho tất cả mọi người trong lớp học 
-    //                receiveMessage(data.message, document.querySelector("#chat-public").querySelector("#chatconversation"),data.user);
-    //            }
-    //            else if (data.type == "group") { // nhắn tin trong nhóm 
-    //                receiveMessage(data.message, document.querySelector("#chat-group").querySelector("#chatconversation"),data.user);
-    //            }
-    //        }
-    //    }
-    //    else if (remotedataChannel.label == "send-file" || remotedataChannel == "send-file-private") {
-    //        console.log("here");
-    //        let receiveSize = 0;
-    //        let receiveBuffer = [];
-    //        if (remotedataChannel.label == "send-file")
-    //            receiveChannelCallBack(remotedataChannel, receiveSize, receiveBuffer, true);
-    //        else {
-    //            receiveChannelCallBack(remotedataChannel, receiveSize, receiveBuffer, false);
-    //        }
-
-    //    }
-    //    remotedataChannel.onclose = (e) => {
-    //        console.log(`Closed data channel with label: ${receiveChannel.label}`);
-    //    }
-    //});
-    //localDataChannels[partnerClientId] = LocaldataChannel;
+    
     ////
     connection.onicecandidate = evt => callbackIceCandidate(evt, connection, partnerClientId); // hàm callback cài đặt cho sư kiên onicecandidate
     connection.ontrack = e => { callbackAddTrack(connection, e) }; // hàm callback cho sư kiện khi có track đươcj attach vào kết nối
@@ -366,26 +313,22 @@ const initiateOffer = (partnerClientId) => {
     console.log("WebRTC: Added local stream");
     // nếu là người gọi thì thêm các track video, screen, audio vào kết nối để truyền đi 
     if (info.isCaller) {
-        for (var i = 0; i < localcamera.getTracks().length; i++) {
-            console.log(localcamera.getTracks()[i]);
-            connection.addTrack(localcamera.getTracks()[i]);
-        }
-        for (var i = 0; i < localscreen.getTracks().length; i++) {
-            console.log(localscreen.getTracks()[i]);
-            connection.addTrack(localscreen.getTracks()[i]);
-        }
-        for (var i = 0; i < localaudio.getTracks().length; i++) {
-            console.log(localaudio.getTracks()[i]);
-            connection.addTrack(localaudio.getTracks()[i]);
-        }
+        localcamera.getTracks().forEach(camTrack => {
+            connection.addTrack(camTrack);
+        });
+        
+        localscreen.getTracks().forEach(srcTrack => {
+            connection.addTrack(srcTrack);
+        });
+        localaudio.getTracks().forEach(auTrack => {
+            connection.addTrack(auTrack);
+        });
     }
     // nếu là học sinh thì thêm track audio ( mic nói ) vào kết nối để truyền đi
     else {
-        console.log("is student");
-        for (var i = 0; i < localaudio.getTracks().length; i++) {
-            console.log(localaudio.getTracks()[i]);
-            connection.addTrack(localaudio.getTracks()[i]);
-        }
+        localaudio.getTracks().forEach(auTrack => {
+            connection.addTrack(auTrack);
+        });
     }
     // tạo offer cho kết nối 
     connection.createOffer().then(offer => {
@@ -444,66 +387,40 @@ wsconn.on('updateUserList', (UserCalls) => {
                             <div class=\"contact-list-item-name\">\
                                 <span data-title=\"teacher\" class=\"user-role\">\
                                 <span class=\"role-device\">teacher</span><br></span>\
-                                <span class=\"user-name\" title=\""+ user.fullName +"\">" + user.fullName + "</span>\
+                                <span class=\"user-name\" title=\""+ user.fullName + "\">" + user.fullName + "</span>\
                             </div>\
                         </li>";
-            if (user.fullName != username) {
-                strTmp2 += "<a id=\"part-chat\" class=\"nav-link\" data-toggle=\"tab\" data-cid=\"#chat-particular\" href=\"#P" + user.connectionID + "\" onclick=addEvent(\"" + user.connectionID + "\"); >\
-            <li class=\"contact-list-item\">\
-                <div class=\"group-icon-device\">\
-                    <div class=\"box-icon-device\">\
-                        <div class=\"icon-user icon-teacher\">\
-                            <svg class=\"icon icon-px_ic_teacher\"><i class=\"fas fa-user-edit\"></i></svg>\
-                        </div>\
-                    </div>\
-                 </div>\
-            <div class=\"contact-list-item-name\">\
-                <span title=\"TEACHER\" class=\"user-role\">\
-                    <span class=\"role-device\">TEACHER</span><br></span>\
-                    <span class=\"user-name\" title=\""+ user.fullName + "\">" + user.fullName + "</span >\
-            </div>\
-            <div class=\"box-number-noti\"></div></li></a>";
-            }
         }
         else {
-            strTmp3 += "<li class=\"contact-list-item\">\
-                            <div class=\"group-icon-device\">\
-                                <div class=\"box-icon-device\">\
-                                    <div class=\"icon-network connect-good\"></div>\
-                                    <div class=\"icon-user icon-teacher\">\
-                                            <svg class=\"icon icon-px_ic__Device__Website\"><i class=\"fas fa-user-graduate\"></i></svg>\
+            if (user.fullName != info.name) {
+                strTmp3 += "<li class=\"contact-list-item user\" data-id='" + user.connectionID + "' data-name='" + user.fullName + "'>\
+                                <div class=\"group-icon-device\">\
+                                    <div class=\"box-icon-device\">\
+                                        <div class=\"icon-network connect-good\"></div>\
+                                        <div class=\"icon-user icon-teacher\">\
+                                                <svg class=\"icon icon-px_ic__Device__Website\"><i class=\"fas fa-user-graduate\"></i></svg>\
+                                        </div>\
                                     </div>\
                                 </div>\
-                            </div>\
-                            <div class=\"contact-list-item-name\">\
-                                <span data-title=\"student\" class=\"user-role\">\
-                                <span class=\"role-device\">student</span><br>\
-                                </span><span class=\"user-name\" title=\""+ user.fullName + "\"> "+ user.fullName+ "</span>\
-                            </div>\
-                        </li>";
-            if (user.fullName != username) {
-                strTmp2 += "<a class=\"nav-link\" data-toggle=\"tab\" datacid=\"" + user.connectionID + "\" href=\"#chat-particular\" onclick=addEvent(\"" + user.connectionID + "\"); >\
-            <li class=\"contact-list-item\">\
-                <div class=\"group-icon-device\">\
-                    <div class=\"box-icon-device\">\
-                        <div class=\"icon-user icon-teacher\">\
-                            <svg class=\"icon icon-px_ic_teacher\"><i class=\"fas fa-user-edit\"></i></svg>\
-                        </div>\
-                    </div>\
-                 </div>\
-            <div class=\"contact-list-item-name\">\
-                <span title=\"STUDENT\" class=\"user-role\">\
-                    <span class=\"role-device\">STUDENT</span><br></span>\
-                    <span class=\"user-name\" title=\""+ user.fullName + "\">" + user.fullName + "</span >\
-            </div>\
-            <div class=\"box-number-noti\"></div></li></a>";
+                                <div class=\"contact-list-item-name\">\
+                                    <span data-title=\"student\" class=\"user-role\">\
+                                    <span class=\"role-device\">student</span><br>\
+                                    </span><span class=\"user-name\" title=\""+ user.fullName + "\"> " + user.fullName + "</span>\
+                                </div></a>\
+                            </li>";
             }
         }
     });
-    document.querySelector("#student-part").querySelector("span.user-count").innerHTML = countStudent(UserCalls);
+    console.log(strTmp1);
+    document.querySelector("span.user-count").innerHTML = countStudent(UserCalls);
     document.querySelector("#contacts-teacher").innerHTML = strTmp1;
     document.querySelector("#contacts-student").innerHTML = strTmp3;
-    listUserTag.innerHTML = strTmp2;
+    $(".user").click(e => {
+        chatPrivateTargetID = e.currentTarget.getAttribute('data-id');
+        document.querySelector("#private_tab").click();
+        document.querySelector("#private_tab").innerHTML = e.currentTarget.getAttribute('data-name');
+    })
+    /*listUserTag.innerHTML = strTmp2;*/
 });
 const makeNewBoxChatPrivate = (connectionID) => {
     var tmp = "<div id=\"P" + connectionID + "\"><div id=\"sideToolbarContainerChat\">\
@@ -513,12 +430,19 @@ const makeNewBoxChatPrivate = (connectionID) => {
     document.querySelector("#chat-particular").innerHTML += tmp;
 }
 // khi có một người mới vào phòng 
-wsconn.on("NewMember", (newMember) => {
+wsconn.on("notifyNewMember", (newMember) => {
     console.log("New member !");
-    if (localaudio && localcamera) {
-        wsconn.invoke("CallUser", newMember) // thực thi các cuộc goi kết nối tới người mới 
+    if (info && info.isCaller) {
+        wsconn.invoke("CallUser", newMember) // teacher thực thi các cuộc goi kết nối tới người mới 
             .catch(err => console.log(err));
     }
+});
+
+wsconn.on("reconnect", (UserCalls) => {
+    UserCalls.forEach(user => {
+        wsconn.invoke("CallUser", user)
+        .catch(err => console.log(err))
+    })
 });
 // cuoc goi toi từ phía callingUser
 wsconn.on('incomingCall', (callingUser) => {
@@ -550,7 +474,12 @@ wsconn.on('callEnded', (signalingUser, signal) => {
 
     // Close the WebRTC connection
     closeConnection(signalingUser.connectionID);
+    if (signalingUser.isCaller) {
+        console.log("remove track");
+        removeTrack();
+    }
 });
+
 wsconn.onclose(e => {
     if (e) {
         console.log("SignalR: closed with error.");
@@ -574,7 +503,17 @@ const consoleLogger = (val) => {
         console.log(val);
     }
 };
-
+const removeTrack = () => {
+    remoteAudio.getTracks().forEach(auTrack => {
+        cameraStream.removeTrack(auTrack);
+    });
+    cameraStream.getVideoTracks().forEach(vidTrack => {
+        cameraStream.removeTrack(vidTrack);
+    });
+    screenStream.getVideoTracks().forEach(scrTrack => {
+        screenStream.removeTrack(scrTrack);
+    });
+}
 // 3 sự kiện tắt bật mic, cam, screen
 document.querySelector("#mic").addEventListener("click", () => {
     console.log("turn on/off mic");
@@ -603,14 +542,51 @@ async function getConnectedDevices(type) {
 
 // *********************** Implement with chat ********************************** //
 
-wsconn.on("receiveMessageForAllAsync", (callingUser, message) => {
+
+wsconn.on("receiveMessagePublic", (callingUser, message) => {
+    receiveMessage(message, document.querySelectorAll("#chatconversation")[0], callingUser.fullName);
+});
+wsconn.on("receiveMessagePrivate", (callingUser, message) => {
     console.log(callingUser);
     console.log(message);
+    receiveMessage(message, document.querySelectorAll("#chatconversation")[1], callingUser.fullName);
 });
+wsconn.on("sendMessageOnErr", (message) => {
+    console.log("a message didn't send to a client : ",message);
+});
+wsconn.on("sendMessageOnSuccess", (message, isPublic) => {
 
-wsconn.on("sendMessageOnErr", () => {
-    console.log("a message didn't send to a client");
+    isPublic ? addnewMessageForMe(message, document.querySelectorAll("#chatconversation")[0]) : addnewMessageForMe(message, document.querySelectorAll("#chatconversation")[1]);
 });
+$("#public_tab").click((e) => {
+    isChatPublic = true;
+    isChatPrivate = false;
+    console.log("is chat public : ", isChatPublic);
+});
+$("#private_tab").click((e) => {
+    isChatPublic = false;
+    isChatPrivate = true;
+    console.log("is chat private : ", isChatPrivate);
+});
+$("#usermsg").keypress((e) => {
+    if (e.keyCode == 13 && !e.shiftKey) {
+        e.preventDefault();
+        
+        sendMessage($("#usermsg").val());
+        $("#usermsg").val('');
+        return false;
+    }
+})
+
+const sendMessage = (message) => {
+
+    console.log("send message : ", message);
+    console.log("is public : ", isChatPublic);
+    console.log("is private : ", isChatPrivate);
+    console.log("id :", chatPrivateTargetID);
+    isChatPublic ? wsconn.invoke("SendMessagePublic", message) : "";
+    (isChatPrivate && chatPrivateTargetID) ? wsconn.invoke("SendMessagePrivate", chatPrivateTargetID, message) : "";
+}
 // thêm nôi dung tin nhắn 
 const addnewMessageForMe = (message, elementTag) => {
     elementTag.innerHTML += "<div class=\"box-content-chat\">\
@@ -620,7 +596,7 @@ const addnewMessageForMe = (message, elementTag) => {
             <div class=\"usermessage\"><p class=\"userMessageContent\" >" + message +"</p></div>\
         </div></div>";
 }
-const receiveMessage = (message, elementTag,name) => {
+const receiveMessage = (message, elementTag, name) => {
     elementTag.innerHTML += "\
         <div class=\"box-content-chat\">\
             <div class=\"chatmessage chatmessageReceived\">\
@@ -643,69 +619,36 @@ const getRemoteDataChannel = (connectionID) => {
 
 
 
-const addEvent = (connectionID) => {
-    PartnerChatConnectionID = connectionID;
-    isChatPrivate = true;
-    isChatPublic = false;
-    document.querySelector("#a_sf").style.display = "block";
-    document.querySelector("textarea.text-area").disabled = false;
-    document.querySelector("#chat-group").style.display = "none";
-    document.querySelector("#chat-particular").style.display = "block";
-}
-document.querySelector("li#public").addEventListener("click", e => {
-    isChatPublic = true;
-    isChatPrivate = false;
-    document.querySelector("textarea.text-area").disabled = false;
-    document.querySelector("#a_sf").style.display = "block";
-});
-document.querySelector("li#private").addEventListener("click", e => {
-    isChatPublic = false;
-    isChatPrivate = false;
-    document.querySelector("#a_sf").style.display = "none";
-    document.querySelector("textarea.text-area").disabled = true;
-    document.querySelector("#chat-group").style.display = "block";
-    document.querySelector("a#bk-icon").onclick = turnbackGroup;
-});
-const turnbackGroup = () => {
-    isChatPublic = false;
-    isChatPrivate = false;
-    document.querySelector("textarea.text-area").disabled = true;
-    document.querySelector("#chat-group").style.display = "block";
-    document.querySelector("#chat-particular").style.display = "none";
-};
-
-document.querySelector("textarea.text-area").addEventListener('keypress', (e) => {
-    if ("nav-item active" == document.querySelector("li#public").getAttribute("class")) {
-        if (e.key == "Enter") {
-            var messageTextArea = document.querySelector("textarea.text-area");
-            const message = messageTextArea.value;
-            if (message != "") {
-                wsconn.invoke("SendMessage", message)
-                    .catch((err) => {
-                        console.log("Send Fail:" + err);
-                    });
-            }
-        }
-    }
-    else if ("nav-item active" == document.querySelector("li#private").getAttribute("class") && isChatPrivate && !isChatPublic) {
-        if (e.key == "Enter") {
-            var localDtChannel = getLocalDataChannel(PartnerChatConnectionID);
-            var messageTextArea = document.querySelector("textarea.text-area");
-            const message = messageTextArea.value;
-            if (message != "") {
-                localDtChannel.send(JSON.stringify({ "message": message, "type": "particular", "connectionID": myConnectionID, "user": username }));
-                wsconn.invoke("Message", message, "particular", PartnerChatConnectionID);
-                if (!document.querySelector("#P" + PartnerChatConnectionID)) {
-                    makeNewBoxChatPrivate(PartnerChatConnectionID);
-                }
-                addnewMessageForMe(message, document.querySelector("#P" + PartnerChatConnectionID).querySelector("#chatconversation"));
-                messageTextArea.value = "";
-                if (e.preventDefault) e.preventDefault();
-                return false;
-            }
-        }
-    }
-});
+//const addEvent = (connectionID) => {
+//    PartnerChatConnectionID = connectionID;
+//    isChatPrivate = true;
+//    isChatPublic = false;
+//    document.querySelector("#a_sf").style.display = "block";
+//    document.querySelector("textarea.text-area").disabled = false;
+//    document.querySelector("#chat-group").style.display = "none";
+//    document.querySelector("#chat-particular").style.display = "block";
+//}
+//document.querySelector("li#public").addEventListener("click", e => {
+//    isChatPublic = true;
+//    isChatPrivate = false;
+//    document.querySelector("textarea.text-area").disabled = false;
+//    document.querySelector("#a_sf").style.display = "block";
+//});
+//document.querySelector("li#private").addEventListener("click", e => {
+//    isChatPublic = false;
+//    isChatPrivate = false;
+//    document.querySelector("#a_sf").style.display = "none";
+//    document.querySelector("textarea.text-area").disabled = true;
+//    document.querySelector("#chat-group").style.display = "block";
+//    document.querySelector("a#bk-icon").onclick = turnbackGroup;
+//});
+//const turnbackGroup = () => {
+//    isChatPublic = false;
+//    isChatPrivate = false;
+//    document.querySelector("textarea.text-area").disabled = true;
+//    document.querySelector("#chat-group").style.display = "block";
+//    document.querySelector("#chat-particular").style.display = "none";
+//};
 
 // ******************************* Send File *********************************//
 
@@ -915,3 +858,19 @@ document.querySelector("#zoom").addEventListener("click", () => {
         video_element.requestFullscreen();
     }
 });
+
+$("#changetrack").click( (e) => {
+    
+    navigator.mediaDevices.getDisplayMedia({ video: true, audio: false })
+        .then((stream) => {
+            if (connections != null)
+                Object.values(connections).forEach(conn => {
+                    var senders = conn.getSenders();
+                    console.log(senders);
+                    senders[1].replaceTrack(stream.getVideoTracks()[0]);
+                });
+            callbackDisplayMediaSuccess(stream);
+        })
+        .catch(err => console.log(err));
+    
+})

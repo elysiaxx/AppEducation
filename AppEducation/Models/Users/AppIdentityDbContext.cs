@@ -2,40 +2,29 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
-using System;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 
+using AppEducation.Models.RoomInfo;
 namespace AppEducation.Models.Users{
 
     public class AppIdentityDbContext : IdentityDbContext<AppUser> {
         
         public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : base(options) {
-        }
-       
-        public DbSet<UserProfile> UserProfiles {get; set;}
 
+        }
+
+        public DbSet<UserProfile> UserProfiles { get; set; }
+
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<RoomMember> RoomMembers { get; set; }
+        public DbSet<RoomDocument> RoomDocuments { get; set; }
+        public DbSet<File> Files { get; set; }
         public DbSet<Classes> Classes { get; set; }
-        public DbSet<HistoryOfClass> HOClasses { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // modelBuilder.Entity<IdentityUser>().ToTable("Users");
-            // modelBuilder.Entity<AppUser>( entity => 
-            // {
-            //     entity.ToTable(name:"Users");
-            // });
-            // modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
-            // modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
-            // modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
-            // modelBuilder.Entity<IdentityRole>().ToTable("Roles");
             modelBuilder.Entity<Classes>()
                 .HasKey(t => t.ClassID);
-            modelBuilder.Entity<HistoryOfClass>()
-                .HasKey(t => t.hocID);
-
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<UserProfile>().ToTable("UserProfiles");
             modelBuilder.Entity<UserProfile>().HasKey( t => t.UserProfileId);
@@ -44,6 +33,10 @@ namespace AppEducation.Models.Users{
                 .HasOne( u => u.Profile)
                 .WithOne( p => p.User)
                 .HasForeignKey<UserProfile>( p => p.UserId);
+            modelBuilder.Entity<Document>().HasKey(t => t.DocumentID);
+            modelBuilder.Entity<RoomMember>().HasKey(t => t.RoomMemberID);
+            modelBuilder.Entity<RoomDocument>().HasKey(t => t.RoomDocumentID);
+            modelBuilder.Entity<File>().HasKey(t => t.FileID);
         }
 
     }

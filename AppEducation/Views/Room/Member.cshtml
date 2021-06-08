@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewBag.Title = "Member";
+    Layout = "_LayoutRoom";
+}
+@model Classes
+@section Head {
+    <link rel="stylesheet" href="~/pages/profile/css/all.min.css">
+    <link rel="stylesheet" href="~/pages/profile/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="~/pages/create/css/create.css" />
+    <link type="text/css" rel="stylesheet" href="~/pages/create/css/mdb.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link rel="stylesheet" href="~/pages/room/css/room.css" />
+}
+<div style="display: flex; flex: 1 1 0%; height: calc(100vh - 63px);">
+    <div style="width: 100%; display: flex; flex-wrap: wrap; box-sizing: border-box;">
+        <div class="col-xs-2 navLeft">
+            <div class="ps" style="padding: 0px 16px; position: sticky; top: 63px; height: calc(100vh - 63px);">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="navLeftTop">
+                        <div style="display:flex;justify-content:center">
+                            <span> @Model.ClassName </span>/
+                            <span> @Model.ClassID</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;">
+                            <button class="myBtnCustom" title="setting class"><i class="fas fa-cog"></i></button>
+                            <button class="myBtnCustom" title="share"><i class="fas fa-share"></i></button>
+                        </div>
+                    </div>
+                    <hr class="divider" />
+                    <div class="sb-sidenav-menu">
+                        <ul class="myListLink" style="display:flex;flex-direction:column;margin: 0;padding: 0;position: relative;list-style: none;">
+                            <li class="myListLinkItem">
+                                @Html.ActionLink("NewsFeed", "Room", "Room", Model, new Dictionary<string, object> { { "class", "myNavLink" }, { "data-icon", "news" } })
+                            </li>
+                            <li class="myListLinkItem">
+                                @Html.ActionLink("Member", "Member", "Room", Model, new Dictionary<string, object> { { "class", "myNavLink" }, { "data-icon", "person" } })
+                            </li>
+                            <li class="myListLinkItem">
+                                @Html.ActionLink("Exercise", "Exercise", "Room", Model, new Dictionary<string, object> { { "class", "myNavLink" }, { "data-icon", "notebook" } })
+                            </li>
+                            <li class="myListLinkItem">
+                                @Html.ActionLink("Document", "Document", "Room", Model, new Dictionary<string, object> { { "class", "myNavLink" }, { "data-icon", "document" } })
+                            </li>
+                            <li class="myListLinkItem">
+                                @Html.ActionLink("Start Online", "Present", "Room", Model, new Dictionary<string, object> { { "class", "myNavLink" }, { "data-icon", "computer" } })
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="col-xs-7 mainContent" style="padding:0;">
+            <div style="margin: auto;">
+                <div class="d-flex" style="flex-direction:column;padding:0;">
+                    <div class="myHeaderContent">
+                        <p style="margin:0;">Thành viên lớp học (0)</p>
+                    </div>
+                    <div style="padding: 16px 16px 0px;">
+                        
+                        <div>
+                            <div class="df aic jcsb" style="flex: 1 1 0%; margin-bottom: 16px;">
+                                <div class="input-group" style="width:100%;display:flex;">
+                                    <input type="text" class="form-control" placeholder="Search member" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="myBtnCustom4" type="button" style="width:34px;"><i class="fa fa-search" ></i></button>
+                                    </div>
+                                    <div>
+                                        <button class="myBtnCustom5" >
+                                            <span>Thêm thành viên</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3 rightContent" style="padding:0;">
+            <div class="ps" style="height:100%;min-height: calc(100vh - 63px); max-height: calc(100vh - 63px); border-left: 1px solid rgb(216, 220, 240); padding: 16px; background: white; position: sticky; top: 63px;">
+                <div>
+                    <p>Chờ duyệt (0)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/js/Jquery3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="~/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="~/pages/create/mdb.js"></script>

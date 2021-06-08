@@ -1,0 +1,132 @@
+﻿body {
+}
+
+.myHeaderContent {
+    display: flex;
+    height: 63px;
+    top: 63px;
+    z-index: 10;
+    background: rgb(255, 255, 255);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    position: sticky;
+    align-items: center;
+}
+    .myHeaderContent p {
+        padding-left: 1.5rem;
+        font-size: 1rem;
+        font-family: "Open Sans", sans-serif;
+        font-weight: 600 !important;
+        line-height: 1.5;
+    }
+.df {
+    display:flex;
+}
+.fdc {
+    flex-direction:column;
+}
+.fnf {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: #FFFFFF;
+    border-radius: 8px;
+}
+.myAvatarBox {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    font-size: 1.25rem;
+    align-items: center;
+    flex-shrink: 0;
+    font-family: "Open Sans", sans-serif;
+    line-height: 1;
+    user-select: none;
+    border-radius: 50%;
+    justify-content: center;
+    color: #fff;
+}
+.mAvt {
+    font-size: 0.875rem;
+    font-family: "Open Sans", sans-serif;
+    line-height: 1.43;
+    font-weight: 600 !important;
+}
+.mFctrl {
+    border: 0;
+    margin: 0;
+    display: inline-flex;
+    padding: 0;
+    position: relative;
+    min-width: 0;
+    flex-direction: column;
+    vertical-align: top;
+}
+.jcc {
+    justify-content:center;
+}
+.mw {
+    width:100%;
+}
+.mml8 {
+    margin-left:8px;
+}
+.mInputCustom {
+    position: relative;
+    border-radius: 4px;
+    border-color: transparent !important;
+    border-width: 0px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    align-items: center;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    line-height: 1.1876em;
+    color: rgba(0, 0, 0, 0.87);
+    cursor: text;
+    display: inline-flex;
+}
+
+.mInputBase {
+    margin-left: 8px;
+    padding-left: 0;
+    position: relative;
+    border-radius: 4px;
+    width: 100%;
+    color: rgba(0, 0, 0, 0.87);
+    cursor: text;
+    display: inline-flex;
+    font-size: 1rem;
+    box-sizing: border-box;
+    align-items: center;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    line-height: 1.1876em;
+}
+.jcfe {
+    justify-content:flex-end;
+}
+.aic {
+    align-items:center;
+}
+.cp {
+    cursor:pointer;
+}
+.myBtnCustom3 {
+    border-radius: 6px;
+    text-transform: none;
+    border:0;
+}
+
+.jcsp {
+    justify-content:space-between;
+}
+
+.myBtnCustom4 {
+    height: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+.myBtnCustom4:hover {
+
+}

@@ -44,26 +44,38 @@ namespace AppEducation.Hubs
                         UserCalls = new List<UserCall> { usr }
                     });
                     await SendUserListUpdate(GetRoomByClassID(classid));
-                    //await Clients.Client(usr.ConnectionID).initDevices(usr);
                 }
                 else
                 {
-                    room.UserCalls.Add(usr);
-                    await SendUserListUpdate(room);
-                    //await Clients.Client(usr.ConnectionID).initDevices(usr);
-                    room.UserCalls.ForEach(async u =>
+                    if (usr.IsCaller)
                     {
-                        if (u != usr)
+                        await SendUserListUpdate(room);
+                        room.UserCalls.Add(usr);
+                        await Clients.Client(Context.ConnectionId).Reconnect(room.UserCalls.Where(u => u.ConnectionID != Context.ConnectionId).ToList());
+                    }
+                    else
+                    {
+                        room.UserCalls.Add(usr);
+                        await SendUserListUpdate(room);
+                        room.UserCalls.ForEach(async u =>
                         {
-                            await Clients.Client(u.ConnectionID).NotifyNewMember(usr);
-                        }
-                    });
+                            if (u != usr)
+                            {
+                                await Clients.Client(u.ConnectionID).NotifyNewMember(usr);
+                            }
+                        });
+                    }
                 }
             }
         }
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             Room callingRoom = GetRoomByConnectionID(Context.ConnectionId);
+            if(callingRoom == null)
+            {
+                await base.OnDisconnectedAsync(exception);
+                return;
+            }
             // Hang up any calls the user is in
             await HangUp(); // Gets the user from "Context" which is available in the whole hub
 
@@ -132,26 +144,21 @@ namespace AppEducation.Hubs
         public async Task HangUp()
         {
             Room callingRoom = GetRoomByConnectionID(Context.ConnectionId);
+            if (callingRoom == null)
+            {
+                await base.OnDisconnectedAsync(new Exception("Room is not exist."));
+                return;
+            }
             UserCall callingUser = callingRoom.UserCalls.SingleOrDefault(u => u.ConnectionID == Context.ConnectionId);
-            // if room is mine . Remove all user in call
-            
-            if (callingRoom.UserCalls.Count <= 1)
+            if (callingUser == null)
             {
-                // do something
-                _context.Classes.Find(callingRoom.RoomIF.ClassID).isActive = false;
-                _context.Classes.Find(callingRoom.RoomIF.ClassID).OnlineStudent = 0;
-                var hoc = _context.HOClasses.Find(callingRoom.RoomIF.hocID);
-                hoc.endTime = DateTime.Now;
-
+                await base.OnDisconnectedAsync(new Exception("User is not exist"));
+                return;
+            }
+            callingRoom.UserCalls.RemoveAll(u => u.ConnectionID == Context.ConnectionId);
+            if (callingRoom.UserCalls.Count <= 0)
                 _rooms.Remove(callingRoom);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                _context.Classes.SingleOrDefault(c => c.ClassID == callingRoom.RoomIF.ClassID).OnlineStudent -= 1;
-                _context.SaveChanges();
-                callingRoom.UserCalls.Remove(callingUser);
-            }
+
 
             // Send a hang up message to each user in the call, if there is one
             if (callingRoom != null)
@@ -192,34 +199,57 @@ namespace AppEducation.Hubs
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public async Task SendMessage(string message)
+        public async Task SendMessagePublic(string message)
         {
             Room callingRoom = GetRoomByConnectionID(Context.ConnectionId);
+            if(callingRoom == null)
+            {
+                await Clients.Client(Context.ConnectionId).SendMessageOnError("Room is not exist!");
+                return;
+            }
             UserCall callingUser = callingRoom.UserCalls.SingleOrDefault(u => u.ConnectionID == Context.ConnectionId);
-            await Clients.All.ReceiveMessageByAllAsync(callingUser,message);
+            if(callingUser == null)
+            {
+                await Clients.Client(Context.ConnectionId).SendMessageOnError("You is not exist in room");
+                return;
+            }
+            callingRoom.UserCalls.ForEach(async usr =>
+            {
+                if (usr.ConnectionID != callingUser.ConnectionID)
+                    await Clients.Client(usr.ConnectionID).ReceiveMessagePublic(callingUser, message);
+                else
+                    await Clients.Client(callingUser.ConnectionID).SendMessageOnSuccess(message,true);
+            });
         }
         /// <summary>
         /// Send message to a person in this rom with his connectionid 
         /// </summary>
         /// <returns></returns>
-        public async Task SendMessageToClient(string targetConnectionId,string message)
+        public async Task SendMessagePrivate(string targetConnectionId,string message)
         {
             Room callingRoom = GetRoomByConnectionID(Context.ConnectionId);
+            if(callingRoom == null)
+            {
+                await Clients.Client(Context.ConnectionId).SendMessageOnError("Room is not exist!");
+                return;
+            }
             UserCall callingUser = callingRoom.UserCalls.SingleOrDefault(uc => uc.ConnectionID == Context.ConnectionId);
             if(callingUser == null)
             {
-                // does not find out user that did this process 
+                await Clients.Client(Context.ConnectionId).SendMessageOnError("You is not exist in room");
                 return;
             }
             UserCall targetUser = callingRoom.UserCalls.SingleOrDefault(uc => uc.ConnectionID == targetConnectionId);
             if(targetUser == null)
             {
                 // doesn't find out target user
-                await Clients.Client(callingUser.ConnectionID).SendMessageOnError();
+                await Clients.Client(callingUser.ConnectionID).SendMessageOnError("Target user is not exist");
+                return;
             }
-            await Clients.Client(callingUser.ConnectionID).ReceiveMessageByOneAsync(callingUser,message);
+            await Clients.Client(targetUser.ConnectionID).ReceiveMessagePrivate(callingUser,message);
+            await Clients.Client(callingUser.ConnectionID).SendMessageOnSuccess(message, false);
         }
-        #endregion
+        #endregion\
         #region Private Helpers
 
         private async Task SendUserListUpdate(Room room)
@@ -252,10 +282,12 @@ namespace AppEducation.Hubs
         Task IncomingCall(UserCall callingUser);
         Task initDevices(UserCall UserCalls);
         Task NotifyNewMember(UserCall usr);
+        Task Reconnect(List<UserCall> UserCalls);
         Task ReceiveSignal(UserCall callingUser, string signal);
         Task UpdateUserList(List<UserCall> userCalls);
-        Task ReceiveMessageByAllAsync(UserCall callingUser, string message);
-        Task ReceiveMessageByOneAsync(UserCall callingUser, string message);
-        Task SendMessageOnError();
+        Task ReceiveMessagePublic(UserCall callingUser, string message);
+        Task ReceiveMessagePrivate(UserCall callingUser, string message);
+        Task SendMessageOnError(string message);
+        Task SendMessageOnSuccess(string message,bool isPublic);
     }
 }
