@@ -1,8 +1,9 @@
 ﻿using AppEducation.Models;
+using AppEducation.Models.RoomInfo;
 using AppEducation.Models.Users;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,9 +14,11 @@ namespace AppEducation.Controllers
     public class RoomController : Controller
     {
         private AppIdentityDbContext _context;
-        public RoomController(AppIdentityDbContext context)
+        private UserManager<AppUser> _userManager;
+        public RoomController(AppIdentityDbContext context,UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public IActionResult Room(Classes cls)
         {
@@ -32,7 +35,28 @@ namespace AppEducation.Controllers
         }
         public IActionResult Document(Classes cls)
         {
+            var roomD = _context.RoomDocuments.Where(t => t.ClassInfoID == cls.ClassID).FirstOrDefault();
+            var docs = _context.Documents.Where(t => t.RoomDocumentID == roomD.RoomDocumentID).ToList();
+            DocumentViewModel docview = new DocumentViewModel
+            {
+                myClass = cls,
+                myDocuments = docs
+            };
+
             return View(cls);
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetDocuments(string classid)
+        {
+            var cls = _context.Classes.Find(classid);
+            var roomD = _context.RoomDocuments.Where(t => t.ClassInfoID == cls.ClassID).FirstOrDefault();
+            var docs = _context.Documents.Where(t => t.RoomDocumentID == roomD.RoomDocumentID).ToList();
+            DocumentViewModel model = new DocumentViewModel
+            {
+                myClass = cls,
+                myDocuments = docs
+            };
+            return new JsonResult(model);
         }
         public IActionResult Present(Classes cls)
         {
@@ -52,6 +76,17 @@ namespace AppEducation.Controllers
             {
                 await file.CopyToAsync(stream);
             }
+            AppUser currentUser = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+            var cls = _context.Classes.Where(t => t.UserId == currentUser.Id).FirstOrDefault();
+            var roomD = _context.RoomDocuments.Where(t => t.ClassInfoID == cls.ClassID).FirstOrDefault();
+            Document nD = new Document
+            {
+                User = currentUser,
+                Path = file.FileName,
+                RoomDocuments = roomD
+            };
+            _context.Documents.Add(nD);
+            await _context.SaveChangesAsync();
             return new JsonResult("Success");
         }
         public async Task<IActionResult> Download(string filename)

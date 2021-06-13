@@ -61,11 +61,6 @@ namespace AppEducation.Controllers
                 AppUser currentUser = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 joinClassInfor.NewClass.User = currentUser;
                 
-                //HistoryOfClass hoc = new HistoryOfClass
-                //{
-                //    hocID = joinClassInfor.NewClass.ClassID,
-                //    startTime = DateTime.Now,
-                //};
                 joinClassInfor.NewClass.isActive = true;
                 //joinClassInfor.NewClass.HOC = hoc;
                 _context.Classes.Add(joinClassInfor.NewClass);
@@ -99,23 +94,10 @@ namespace AppEducation.Controllers
                 }
             }
             return View(joinClassInfor);
-            //return RedirectToAction("Create","JoinClass", joinClassInfor);
         }
         public IActionResult LoadUserList(string userCalls)
         {
             return PartialView("_BoxChatPartial", userCalls);
-        }
-        public IActionResult Present(Classes cls)
-        {
-            Classes oldClass = ReadCookies();
-            if(cls.ClassName == null){
-                if( oldClass != null){
-                    return View(oldClass);
-                }else{
-                    return RedirectToAction("Create","JoinClass");
-                }
-            }
-            return View(cls);
         }
 
         [HttpGet]
@@ -166,7 +148,7 @@ namespace AppEducation.Controllers
                 Response.Cookies.Append(setting,settingValue, options);
             }else
             {
-                Response.Cookies .Append(setting, settingValue);
+                Response.Cookies.Append(setting, settingValue);
             }
             ViewBag.Message = "Cookie Written Successfully!";
         }

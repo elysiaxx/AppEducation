@@ -1,7 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     ViewBag.Title = "Document";
     Layout = "_LayoutRoom";
 }
@@ -120,8 +117,7 @@
                             <span>Tất cả tài liệu</span>
                         </button>
                         
-                        <div class="shAD">
-                            <a href="@Url.Action("Download", "Room", new { filename = "test.docx" })">Download Form</a>
+                        <div class="shAD" id="listDocs">
                         </div>
                     </div>
 
@@ -148,7 +144,7 @@
 
     $(".cBGbs").on("change", "#ipD", () => {
         $(".desD").attr("style", "display:block;");
-        
+
         console.log($("#ipD")[0].files[0]);
         var filename = $("#ipD")[0].files[0].name;
         var size = $("#ipD")[0].files[0].size;
@@ -157,8 +153,6 @@
     });
     $("#smUpload").on("click", (e) => {
         e.preventDefault();
-        var filename = "test.txt";
-        var description = "test description";
         var formData = new FormData();
         formData.append('file', $('#ipD')[0].files[0]);
         console.log("upload");
@@ -174,27 +168,23 @@
             }
         });
     });
-    //$("#shADBtn").on("click", () => {
-    //    console.log("download");
-    //    $.ajax({
-    //        url: '/Room/Download',
-    //        type: 'POST',
-    //        data: { "filename": "test.docx" },
-    //        //processData: false, 
-    //        //contentType: false,  
-    //        success: function (data) {
-    //            console.log(data);
-    //            const url = window.URL.createObjectURL(blob);
-    //            const a = document.createElement('a');
-    //            a.style.display = 'none';
-    //            a.href = url;
-    //            // the filename you want
-    //            a.download = 'todo-1.json';
-    //            document.body.appendChild(a);
-    //            a.click();
-    //            window.URL.revokeObjectURL(url);
-    //            alert('your file has downloaded!');
-    //        }
-    //    });
-    //});
+    $("#shADBtn").on("click", () => {
+        console.log("download");
+        $.ajax({
+            url: '/Room/GetDocuments',
+            type: 'POST',
+            data: { "classid": @Model.ClassID },
+            success: function (data) {
+                console.log(data);
+                data.myDocuments.forEach(myD => {
+                    var aTag = "<a onclick='downloadFile(\""+ myD.path + "\"); '>" + myD.path + "</a>";
+                    $("#listDocs").html(aTag);
+                })
+
+            }
+        });
+    });
+    const downloadFile = (filename) => {
+        window.location = "/Room/Download?filename=" + filename;
+    }
 </script>

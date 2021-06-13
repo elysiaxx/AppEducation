@@ -107,7 +107,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn-border">
-                                                            <a asp-action="Create" asp-controller="JoinClass">Thoát khỏi lớp</a>
+                                                            <a href=@Url.Action("Room","Room",Model) >Thoát khỏi lớp</a>
                                                         </button>
                                                         <button class="btn-full" data-dismiss="modal">
                                                             Đóng
@@ -202,39 +202,7 @@
                                         </div>
                                     </div>
                                     <div class="text-bar">
-                                        <div class="modal fade" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 400px;height: 185px;">
-                                            <div style="padding: 10px;">
-                                                <div class="modal-header text-center">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="card-pane">
-                                                    <form>
-                                                        <div class="file-field input-field">
-                                                            <div class="btn">
-                                                                <span>
-                                                                    FILE
-                                                                </span>
-                                                                <input type="file" id="fileInput" name="files" />
-                                                            </div>
-                                                            <div class="file-path-wrapper">
-                                                                <input type="text" id="fileInput" class="file-path" placeholder="choose multiple file">
-                                                            </div>
-                                                            @*<input type="button" id="sendFile" value="Send File" class="btn close" data-dismiss="modal" aria-label="Close" style="margin-left: 150px;" />*@
-                                                            <button type="button" id="sendFile" class="btn close" data-dismiss="modal" aria-label="Close" style="margin-left: 150px;">
-                                                                <span>Send File</span>
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-center">
-                                            <a id="a_sf" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalSubscriptionForm">Chọn gửi tệp tin</a>
-                                        </div>
-                                        <a id="download"></a>
-                                        <input class="text-area" type="text" spellcheck="false" id="usermsg" data-i18n="[placeholder]chat.messagebox" placeholder="Nhập tin nhắn"></input>
+                                        <textarea class="text-area" type="text" spellcheck="false" id="usermsg" data-i18n="[placeholder]chat.messagebox" placeholder="Nhập tin nhắn"></textarea>
                                     </div>
                                 </div>
                             </div>
