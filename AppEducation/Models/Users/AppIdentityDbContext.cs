@@ -27,6 +27,8 @@ namespace AppEducation.Models.Users{
                 .HasKey(t => t.ClassID);
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<UserProfile>().ToTable("UserProfiles");
+            modelBuilder.Entity<Document>().ToTable("Document");
+            modelBuilder.Entity<RoomDocument>().ToTable("RoomDocument");
             modelBuilder.Entity<UserProfile>().HasKey( t => t.UserProfileId);
           
             modelBuilder.Entity<AppUser>()
@@ -34,8 +36,12 @@ namespace AppEducation.Models.Users{
                 .WithOne( p => p.User)
                 .HasForeignKey<UserProfile>( p => p.UserId);
             modelBuilder.Entity<Document>().HasKey(t => t.DocumentID);
+            modelBuilder.Entity<Document>().Property(t => t.DocumentID).ValueGeneratedOnAdd();
             modelBuilder.Entity<RoomMember>().HasKey(t => t.RoomMemberID);
+            modelBuilder.Entity<RoomMember>().Property(t => t.RoomMemberID).ValueGeneratedOnAdd();
             modelBuilder.Entity<RoomDocument>().HasKey(t => t.RoomDocumentID);
+            modelBuilder.Entity<RoomDocument>().Property(t => t.RoomDocumentID).ValueGeneratedOnAdd();
+               
             modelBuilder.Entity<File>().HasKey(t => t.FileID);
         }
 

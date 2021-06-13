@@ -15,6 +15,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using AppEducation.Models.RoomInfo;
 
 namespace AppEducation.Controllers
 {
@@ -59,6 +60,7 @@ namespace AppEducation.Controllers
             {
                 AppUser currentUser = await userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 joinClassInfor.NewClass.User = currentUser;
+                
                 //HistoryOfClass hoc = new HistoryOfClass
                 //{
                 //    hocID = joinClassInfor.NewClass.ClassID,
@@ -67,11 +69,18 @@ namespace AppEducation.Controllers
                 joinClassInfor.NewClass.isActive = true;
                 //joinClassInfor.NewClass.HOC = hoc;
                 _context.Classes.Add(joinClassInfor.NewClass);
+                RoomDocument roomD = new RoomDocument
+                {
+                    ClassInfoID = joinClassInfor.NewClass.ClassID
+                };
+                _context.RoomDocuments.Add(roomD);
+                RoomMember roomM = new RoomMember
+                {
+                    ClassID = joinClassInfor.NewClass.ClassID
+                };
+                _context.RoomMembers.Add(roomM);
                 await _context.SaveChangesAsync();
-                WriteCookies("ClassName", joinClassInfor.NewClass.ClassName, true);
-                WriteCookies("ClassID", joinClassInfor.NewClass.ClassID, true);
-                WriteCookies("Topic", joinClassInfor.NewClass.Topic, true);
-                return RedirectToAction("Present", "JoinClass", joinClassInfor.NewClass);
+                return RedirectToAction("Room", "Room", joinClassInfor.NewClass);
             }
             return View();
         }
@@ -86,10 +95,6 @@ namespace AppEducation.Controllers
                 if (cls == null)
                     return RedirectToAction("Create","JoinClass", joinClassInfor);
                 else {
-                    WriteCookies("ClassName", cls.ClassName, true);
-                    WriteCookies("ClassID", cls.ClassID, true);
-                    WriteCookies("Topic", cls.Topic, true);
-                    _context.SaveChanges();
                     return RedirectToAction("Room", "Room", cls);
                 }
             }

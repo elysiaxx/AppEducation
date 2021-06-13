@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppEducation.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20201224030220_v1")]
+    [Migration("20210613024832_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,15 +29,100 @@ namespace AppEducation.Migrations
                     b.Property<string>("ClassName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TeacherID")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Topic")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("bit");
+
                     b.HasKey("ClassID");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Classes");
+                });
+
+            modelBuilder.Entity("AppEducation.Models.RoomInfo.Document", b =>
+                {
+                    b.Property<string>("DocumentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Describe")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomDocumentID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("DocumentID");
+
+                    b.HasIndex("RoomDocumentID");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Document");
+                });
+
+            modelBuilder.Entity("AppEducation.Models.RoomInfo.File", b =>
+                {
+                    b.Property<string>("FileID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("FileID");
+
+                    b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("AppEducation.Models.RoomInfo.RoomDocument", b =>
+                {
+                    b.Property<string>("RoomDocumentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ClassInfoID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClassesClassID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoomDocumentID");
+
+                    b.HasIndex("ClassesClassID");
+
+                    b.ToTable("RoomDocument");
+                });
+
+            modelBuilder.Entity("AppEducation.Models.RoomInfo.RoomMember", b =>
+                {
+                    b.Property<string>("RoomMemberID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ClassID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClassesClassID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoomMemberID");
+
+                    b.HasIndex("ClassesClassID");
+
+                    b.ToTable("RoomMembers");
                 });
 
             modelBuilder.Entity("AppEducation.Models.Users.AppUser", b =>
@@ -82,6 +167,9 @@ namespace AppEducation.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RoomMemberID")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -101,6 +189,8 @@ namespace AppEducation.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("RoomMemberID");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -275,6 +365,45 @@ namespace AppEducation.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("AppEducation.Models.Classes", b =>
+                {
+                    b.HasOne("AppEducation.Models.Users.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("AppEducation.Models.RoomInfo.Document", b =>
+                {
+                    b.HasOne("AppEducation.Models.RoomInfo.RoomDocument", "RoomDocuments")
+                        .WithMany()
+                        .HasForeignKey("RoomDocumentID");
+
+                    b.HasOne("AppEducation.Models.Users.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("AppEducation.Models.RoomInfo.RoomDocument", b =>
+                {
+                    b.HasOne("AppEducation.Models.Classes", "Classes")
+                        .WithMany()
+                        .HasForeignKey("ClassesClassID");
+                });
+
+            modelBuilder.Entity("AppEducation.Models.RoomInfo.RoomMember", b =>
+                {
+                    b.HasOne("AppEducation.Models.Classes", "Classes")
+                        .WithMany()
+                        .HasForeignKey("ClassesClassID");
+                });
+
+            modelBuilder.Entity("AppEducation.Models.Users.AppUser", b =>
+                {
+                    b.HasOne("AppEducation.Models.RoomInfo.RoomMember", null)
+                        .WithMany("Members")
+                        .HasForeignKey("RoomMemberID");
                 });
 
             modelBuilder.Entity("AppEducation.Models.Users.UserProfile", b =>

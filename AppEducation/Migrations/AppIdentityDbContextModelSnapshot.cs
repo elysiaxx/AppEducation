@@ -46,6 +46,7 @@ namespace AppEducation.Migrations
             modelBuilder.Entity("AppEducation.Models.RoomInfo.Document", b =>
                 {
                     b.Property<string>("DocumentID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Describe")
@@ -66,7 +67,7 @@ namespace AppEducation.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Documents");
+                    b.ToTable("Document");
                 });
 
             modelBuilder.Entity("AppEducation.Models.RoomInfo.File", b =>
@@ -88,6 +89,7 @@ namespace AppEducation.Migrations
             modelBuilder.Entity("AppEducation.Models.RoomInfo.RoomDocument", b =>
                 {
                     b.Property<string>("RoomDocumentID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ClassInfoID")
@@ -100,7 +102,7 @@ namespace AppEducation.Migrations
 
                     b.HasIndex("ClassesClassID");
 
-                    b.ToTable("RoomDocuments");
+                    b.ToTable("RoomDocument");
                 });
 
             modelBuilder.Entity("AppEducation.Models.RoomInfo.RoomMember", b =>

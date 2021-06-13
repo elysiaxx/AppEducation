@@ -12,7 +12,7 @@ namespace AppEducation.Models.RoomInfo
             [Key]
             public string RoomMemberID { get; set; }
 
-            public ICollection<AppUser> Members { get; set; }
+            public virtual ICollection<AppUser> Members { get; set; }
 
             public string ClassID { get; set; }
             public Classes Classes { get; set; }

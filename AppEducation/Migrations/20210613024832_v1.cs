@@ -6,18 +6,12 @@ namespace AppEducation.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "TeacherID",
-                table: "Classes",
-                nullable: true);
-            
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "TeacherID",
-                table: "Classes");
+
         }
     }
 }
