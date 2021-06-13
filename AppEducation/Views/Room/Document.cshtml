@@ -12,34 +12,189 @@
     <link type="text/css" rel="stylesheet" href="~/pages/create/css/mdb.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link rel="stylesheet" href="~/pages/room/css/document.css" />
 }
-
-<div>
-    <div>
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Button</button>
+@model Classes
+<div style="display: flex; flex: 1 1 0%; height: calc(100vh - 63px);">
+    <div style="width: 100%; display: flex; flex-wrap: wrap; box-sizing: border-box;">
+        <div class="col-xs-2 navLeft">
+            <div class="ps" style="padding: 0px 16px; position: sticky; top: 63px; height: calc(100vh - 63px);">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="navLeftTop">
+                        <div style="display:flex;justify-content:center">
+                            <span> @Model.ClassName </span>/
+                            <span> @Model.ClassID</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;">
+                            <button class="myBtnCustom" title="setting class"><i class="fas fa-cog"></i></button>
+                            <button class="myBtnCustom" title="share"><i class="fas fa-share"></i></button>
+                        </div>
+                    </div>
+                    <hr class="divider" />
+                    <div class="sb-sidenav-menu">
+                        <ul class="myListLink" style="display:flex;flex-direction:column;margin: 0;padding: 0;position: relative;list-style: none;">
+                            <li class="myListLinkItem">
+                                @Html.ActionLink("NewsFeed", "Room", "Room", Model, new Dictionary<string, object> { { "class", "myNavLink" }, { "data-icon", "news" } })
+                            </li>
+                            <li class="myListLinkItem">
+                                @Html.ActionLink("Member", "Member", "Room", Model, new Dictionary<string, object> { { "class", "myNavLink" }, { "data-icon", "person" } })
+                            </li>
+                            <li class="myListLinkItem">
+                                @Html.ActionLink("Document", "Document", "Room", Model, new Dictionary<string, object> { { "class", "myNavLink" }, { "data-icon", "document" } })
+                            </li>
+                            <li class="myListLinkItem">
+                                @Html.ActionLink("Start Online", "Present", "Room", Model, new Dictionary<string, object> { { "class", "myNavLink" }, { "data-icon", "computer" } })
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
         </div>
-        <div class="input-group">
-            <input type="text" class="form-control" aria-label="Text input with dropdown button">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    <div role="separator" class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Separated link</a>
+        <div class="col-xs-7 mainContent" style="padding:0;background-color:gainsboro;">
+            <div style="margin: auto;">
+                <div class="d-flex" style="flex-direction:column;padding:0;">
+                    <div class="myHeaderContent">
+                        <p style="margin:0;">Tài liệu</p>
+                    </div>
+                    <div class="df fdc" style="margin: auto; max-width: 620px;">
+                        <div class="" style="margin-top: 16px;display:flex;">
+                            <div class="input-group col-md-9" style="display:flex;">
+                                <input type="text" class="form-control" aria-label="Search class" placeholder="Search class">
+                                <div class="input-group-append">
+                                    <button type="button" style="height: 100%;border: 1px solid #ccc;padding: 5px;background-color: white;color: gray;">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-3" style="display:flex;">
+                                <input id="createBG" class="btn btn-primary" type="submit" value="Tải lên tài liệu" style="width:100%;">
+                            </div>
+                        </div>
+                        <div id="createBGbox" class="cbgb" >
+                            <div style="width:100%;height:100%;overflow:hidden;">
+                                <div class="cBGbs">
+                                    <p>
+                                        Tải bài giảng lên với các định dạng sau
+                                    </p>
+                                    <div>
+                                        <button id="ipDocument" type="submit">
+                                            <i class="fas fa-tv"></i>
+                                            <span>Tải lên từ máy</span>
+
+                                        </button>
+                                        <input id="ipD" type="file" style="display:none;" />
+                                    </div>
+                                    <div class="desD">
+                                        <p id="nameDoc"></p>
+                                        <p id="sizeDoc"></p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3 rightContent" >
+            <div class="rCb">
+                <div class="rCbn">
+                    <div>
+                        <p>Tên tài liệu</p>
+                        <input id="documentName" class="dN form-control" type="text" />
+                    </div>
+                    <div>
+                        <p>Mô tả</p>
+                        <textarea id="documentDes" class="dD" rows="6" ></textarea>
+                    </div>
+                    <div>
+                        <input id="smUpload" type="submit" class="btn btn-primary" />
+                    </div>
+                </div>
+                <div>
+                    <div class="dropdown">
+                        <button class="CustomBtnshAD" id="shADBtn">
+                            <i class="fas fa-folder-open"></i>
+                            <span>Tất cả tài liệu</span>
+                        </button>
+                        
+                        <div class="shAD">
+                            <a href="@Url.Action("Download", "Room", new { filename = "test.docx" })">Download Form</a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-    <div>
-
-    </div>
 </div>
 <script type="text/javascript" src="~/js/Jquery3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script src="~/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="~/pages/create/mdb.js"></script>
+<script>
+    $("#createBG").on("click", (e) => {
+        e.preventDefault();
+        console.log("hello");
+        $("#createBGbox").attr("style", "display:block");
+        $(".rCbn").attr("style", "display:block");
+    });
+    $("#ipDocument").on("click", (e) => {
+        e.preventDefault();
+        $("#ipD").trigger("click");
+    });
+
+    $(".cBGbs").on("change", "#ipD", () => {
+        $(".desD").attr("style", "display:block;");
+        
+        console.log($("#ipD")[0].files[0]);
+        var filename = $("#ipD")[0].files[0].name;
+        var size = $("#ipD")[0].files[0].size;
+        $("#nameDoc").html("File Name : " + filename);
+        $("#sizeDoc").html("Size : " + size + " Bytes");
+    });
+    $("#smUpload").on("click", (e) => {
+        e.preventDefault();
+        var filename = "test.txt";
+        var description = "test description";
+        var formData = new FormData();
+        formData.append('file', $('#ipD')[0].files[0]);
+        console.log("upload");
+        $.ajax({
+            url: '/Room/UploadFile',
+            type: 'POST',
+            data:  formData,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+            success: function (data) {
+                console.log(data);
+                alert(data);
+            }
+        });
+    });
+    //$("#shADBtn").on("click", () => {
+    //    console.log("download");
+    //    $.ajax({
+    //        url: '/Room/Download',
+    //        type: 'POST',
+    //        data: { "filename": "test.docx" },
+    //        //processData: false, 
+    //        //contentType: false,  
+    //        success: function (data) {
+    //            console.log(data);
+    //            const url = window.URL.createObjectURL(blob);
+    //            const a = document.createElement('a');
+    //            a.style.display = 'none';
+    //            a.href = url;
+    //            // the filename you want
+    //            a.download = 'todo-1.json';
+    //            document.body.appendChild(a);
+    //            a.click();
+    //            window.URL.revokeObjectURL(url);
+    //            alert('your file has downloaded!');
+    //        }
+    //    });
+    //});
+</script>

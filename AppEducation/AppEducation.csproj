@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>dcef43cf-be08-4ef5-99cc-7d33e48480d3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +10,10 @@
     <Compile Remove="Migrations\20201224023709_addrelative_gv_class.Designer.cs" />
     <Compile Remove="Migrations\20210222050359_initial.cs" />
     <Compile Remove="Migrations\20210222050359_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210613020157_v15.cs" />
+    <Compile Remove="Migrations\20210613020157_v15.Designer.cs" />
+    <Compile Remove="Migrations\20210613020344_v15.cs" />
+    <Compile Remove="Migrations\20210613020344_v15.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +29,7 @@
   <ItemGroup>
     <Folder Include="Authorization\" />
     <Folder Include="Authorization\" />
+    <Folder Include="wwwroot\Data\" />
     <Folder Include="wwwroot\pages\create\js\" />
   </ItemGroup>
 
